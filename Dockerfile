@@ -16,6 +16,7 @@ RUN npm config set registry https://registry.npmmirror.com
 RUN npm install -g opencode-ai
 
 RUN mkdir -p /root/.config/opencode
+RUN mkdir -p /root/.claude/skills
 
 RUN mkdir -p /root/.cache/oh-my-opencode/bin && \
     cd /tmp && \
@@ -26,6 +27,7 @@ RUN mkdir -p /root/.cache/oh-my-opencode/bin && \
     rm -f comment-checker.tar.gz LICENSE README.md
 
 COPY opencode.json /root/.config/opencode/opencode.json
+COPY ./skills/vessel-lite-proxy-skill /root/.claude/skills/vessel-lite-proxy
 COPY start-vessel.sh /workspace/start-vessel.sh
 COPY stop-vessel.sh /workspace/stop-vessel.sh
 RUN chmod +x /workspace/start-vessel.sh /workspace/stop-vessel.sh
