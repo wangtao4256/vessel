@@ -21,6 +21,9 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
     
     steps:
       - name: Checkout code
@@ -60,11 +63,11 @@ jobs:
           fi
 
       - name: Login to Aliyun Container Registry
-        run: |
-          echo "${{ secrets.ALIYUN_PASSWORD }}" | docker login \
-            --username "${{ secrets.ALIYUN_USERNAME }}" \
-            --password-stdin \
-            ${{ env.ALIYUN_REGISTRY }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.ALIYUN_REGISTRY }}
+          username: ${{ secrets.ALIYUN_USERNAME }}
+          password: ${{ secrets.ALIYUN_PASSWORD }}
 
       - name: Build and push
         uses: docker/build-push-action@v5
