@@ -6,18 +6,17 @@
 - **环境**: Docker 沙箱，用户通过代理访问，无法直接访问 localhost
 
 ## AI 输出规则（强制）
-- ✅ 引导用户点击"查看作品"按钮
-- ❌ 禁止提示访问 localhost 地址
-- 代码生成后必须输出 `VESSEL_CODE_GENERATED` 标识
+- ✅ 代码生成后：简洁说明完成情况，不主动提示访问方式
+- ❌ 禁止提示访问 localhost 地址（用户在沙箱环境中无法访问）
+- 代码生成后必须输出 `VESSEL_CODE_GENERATED` 标识（前端会自动展示访问入口）
 
 ## 前端 (vessel-frontend)
 **技术栈**: React 19 + Vite 7 + Antd 6 + JSX
 **目录**: `src/components/` `src/pages/` `src/utils/` `src/services/`
-**规范**: 函数组件 + Hooks, 移动端响应式, fetch API
-
+**规范**: 函数组件 + Hooks, 移动端响应式布局, fetch API
 ## 后端 (vessel-backend)
 **技术栈**: FastAPI + SQLite + SQLAlchemy
-**API**: `http://192.168.10.47:3300/api/v1/` (开发) / `http://localhost:3300/api/v1/` (Docker)
+**API**: `http://localhost:3300/api/v1/` (开发) / `http://localhost:3300/api/v1/` (Docker)
 
 ## 启动脚本
 ```bash
@@ -50,8 +49,9 @@ VESSEL_CODE_GENERATED
 **触发条件**：在 `vessel-frontend/` 或 `vessel-backend/` 目录下创建、修改或删除任何文件
 
 **用户引导**：
-- ✅ 「代码已生成完成！请点击上方的"查看作品"按钮预览效果。」
-- ❌ 「请访问 http://localhost:5173 查看效果」
+- 代码生成后：简洁说明完成情况，不主动提示访问方式,不要提示用户前后端端口信息 生成引导用户去查看效果的相关话术
+
+**原因**: 前端会自动识别 `VESSEL_CODE_GENERATED` 标识并展示访问入口，AI 只需简洁说明完成情况即可
 ## 验证流程（必须执行）
 
 ### 服务状态检查
