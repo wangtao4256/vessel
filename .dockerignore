@@ -1,0 +1,46 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Documentation
+*.md
+!README.md
+!vessel-project-structure.md
+
+# CI/CD
+.github
+.gitlab-ci.yml
+
+# Backend specific
+vessel-backend/**/__pycache__
+vessel-backend/**/.pytest_cache
+vessel-backend/**/venv
+vessel-backend/**/.env
+vessel-backend/**/*.db
+vessel-backend/**/*.db-journal
+
+# Frontend specific
+vessel-frontend/node_modules
+vessel-frontend/.env
+vessel-frontend/.env.local
+vessel-frontend/dist
+vessel-frontend/build
+
+# Old single-container Dockerfile
+Dockerfile.vessel
