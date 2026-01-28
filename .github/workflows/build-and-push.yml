@@ -17,6 +17,7 @@ env:
   ALIYUN_REGISTRY: ziwuxian-registry.cn-beijing.cr.aliyuncs.com
   ALIYUN_NAMESPACE: ai-coding
   IMAGE_NAME: vessel
+  ACR_INSTANCE_ID: ${{ secrets.ACR_INSTANCE_ID }}
 
 jobs:
   build-and-push:
@@ -62,12 +63,17 @@ jobs:
             echo "New version: ${NEW_VERSION}"
           fi
 
-      - name: Login to Aliyun Container Registry
-        uses: docker/login-action@v3
+      - name: Configure Aliyun Credentials
+        uses: aliyun/configure-aliyun-credentials-action@v1
         with:
-          registry: ${{ env.ALIYUN_REGISTRY }}
-          username: ${{ secrets.ALIYUN_USERNAME }}
-          password: ${{ secrets.ALIYUN_PASSWORD }}
+          region-id: cn-beijing
+
+      - name: Login to ACR Enterprise Edition
+        uses: aliyun/acr-login@v1
+        with:
+          login-server: ${{ env.ALIYUN_REGISTRY }}
+          region-id: cn-beijing
+          instance-id: ${{ env.ACR_INSTANCE_ID }}
 
       - name: Build and push
         uses: docker/build-push-action@v5
