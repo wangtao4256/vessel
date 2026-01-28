@@ -71,7 +71,6 @@ docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
 
 # 打标签
 docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${FULL_IMAGE_NAME}:${IMAGE_TAG}
-docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest
 
 echo "✓ Build complete!"
 echo ""
