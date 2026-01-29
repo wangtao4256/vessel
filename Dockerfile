@@ -39,7 +39,9 @@ COPY vessel-frontend /workspace/vessel-frontend
 
 RUN chmod +x /workspace/scripts/start-vessel.sh /workspace/scripts/stop-vessel.sh
 WORKDIR /workspace/vessel-backend
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN python3 -m venv venv && \
+    . venv/bin/activate && \
+    pip install --no-cache-dir -r requirements.txt
 
 WORKDIR /workspace/vessel-frontend
 RUN npm install
