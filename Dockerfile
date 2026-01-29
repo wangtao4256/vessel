@@ -16,6 +16,7 @@ RUN npm config set registry https://registry.npmmirror.com
 RUN npm install -g opencode-ai
 
 RUN mkdir -p /root/.config/opencode
+RUN mkdir -p /root/.claude/skills
 
 RUN mkdir -p /root/.cache/oh-my-opencode/bin && \
     cd /tmp && \
@@ -26,6 +27,8 @@ RUN mkdir -p /root/.cache/oh-my-opencode/bin && \
     rm -f comment-checker.tar.gz LICENSE README.md
 
 COPY opencode.json /root/.config/opencode/opencode.json
+COPY ./skills/vessel-lite-proxy-skill /root/.claude/skills/vessel-lite-proxy
+COPY ./skills/ui-ux-pro-max /root/.claude/skills/ui-ux-pro-max
 COPY start-vessel.sh /workspace/start-vessel.sh
 COPY stop-vessel.sh /workspace/stop-vessel.sh
 RUN chmod +x /workspace/start-vessel.sh /workspace/stop-vessel.sh
@@ -43,6 +46,9 @@ WORKDIR /workspace
 ENV NODE_ENV=development
 ENV PYTHONUNBUFFERED=1
 
+
+LABEL vessel.mounts='[{"name":"root","path":"/root","size":"1Gi","description":"OpenCode config, Claude skills, cache"},{"name":"workspace","path":"/workspace","size":"1Gi","description":"Project code, database, logs"}]'
+
 EXPOSE 3000 3300 4096 5173
 
-CMD ["sh", "-c", "nohup opencode web --hostname 0.0.0.0 > /workspace/opencode.log 2>&1 & tail -f /dev/null"]
+CMD ["sh", "-c", "rm -f /workspace/logs/*.pid && /workspace/start-vessel.sh all && nohup opencode web --hostname 0.0.0.0 > /workspace/opencode.log 2>&1 & tail -f /dev/null"]
