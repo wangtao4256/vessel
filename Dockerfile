@@ -52,7 +52,13 @@ ENV NODE_ENV=development
 ENV PYTHONUNBUFFERED=1
 
 
-LABEL vessel.mounts='[{"name":"root","path":"/root","size":"1Gi","description":"OpenCode config, Claude skills, cache"},{"name":"workspace","path":"/workspace","size":"1Gi","description":"Project code, database, logs"}]'
+LABEL vessel.mounts='[\
+{"name":"opencode-storage","path":"/root/.local/share/opencode/storage","size":"200Mi","description":"OpenCode session messages and parts"},\
+{"name":"opencode-config","path":"/root/.config/opencode","size":"50Mi","description":"OpenCode configuration and skills"},\
+{"name":"vessel-backend","path":"/workspace/vessel-backend","size":"500Mi","description":"Backend code and .env"},\
+{"name":"vessel-db","path":"/workspace/vessel-backend/vessel.db","size":"100Mi","description":"SQLite database file"},\
+{"name":"vessel-frontend-src","path":"/workspace/vessel-frontend/src","size":"100Mi","description":"Frontend source code"}\
+]'
 
 EXPOSE 3000 3300 4096 5173
 
