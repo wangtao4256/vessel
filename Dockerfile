@@ -51,4 +51,4 @@ LABEL vessel.mounts='[{"name":"root","path":"/root","size":"1Gi","description":"
 
 EXPOSE 3000 3300 4096 5173
 
-CMD ["sh", "-c", "nohup opencode web --hostname 0.0.0.0 > /workspace/opencode.log 2>&1 & tail -f /dev/null"]
+CMD ["sh", "-c", "rm -f /workspace/logs/*.pid && /workspace/start-vessel.sh all && nohup opencode web --hostname 0.0.0.0 > /workspace/opencode.log 2>&1 & tail -f /dev/null"]
