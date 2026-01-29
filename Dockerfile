@@ -20,7 +20,7 @@ RUN mkdir -p /root/.claude/skills
 
 RUN mkdir -p /root/.cache/oh-my-opencode/bin && \
     cd /tmp && \
-    curl -sL https://github.com/code-yeongyu/go-claude-code-comment-checker/releases/download/v0.7.0/comment-checker_v0.7.0_linux_arm64.tar.gz -o comment-checker.tar.gz && \
+    curl -sL https://github.com/code-yeongyu/go-claude-code-comment-checker/releases/download/v0.7.0/comment-checker_v0.7.0_linux_amd64.tar.gz -o comment-checker.tar.gz && \
     tar -xzf comment-checker.tar.gz && \
     mv comment-checker /root/.cache/oh-my-opencode/bin/ && \
     chmod +x /root/.cache/oh-my-opencode/bin/comment-checker && \
