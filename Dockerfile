@@ -29,16 +29,19 @@ RUN mkdir -p /root/.cache/oh-my-opencode/bin && \
 COPY opencode.json /root/.config/opencode/opencode.json
 COPY ./skills/vessel-lite-proxy-skill /root/.claude/skills/vessel-lite-proxy
 COPY ./skills/ui-ux-pro-max /root/.claude/skills/ui-ux-pro-max
-COPY start-vessel.sh /workspace/start-vessel.sh
-COPY stop-vessel.sh /workspace/stop-vessel.sh
-RUN chmod +x /workspace/start-vessel.sh /workspace/stop-vessel.sh
+COPY ./start-vessel.sh /workspace/scripts/start-vessel.sh
+COPY ./stop-vessel.sh /workspace/scripts/stop-vessel.sh
+COPY ./docs/vessel-project-structure.md /workspace/docs/vessel-project-structure.md
+COPY ./docs/global-identity.md /workspace/docs/global-identity.md
+
 COPY vessel-backend /workspace/vessel-backend
+COPY vessel-frontend /workspace/vessel-frontend
+
+RUN chmod +x /workspace/scripts/start-vessel.sh /workspace/scripts/stop-vessel.sh
 WORKDIR /workspace/vessel-backend
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-COPY vessel-frontend /workspace/vessel-frontend
 WORKDIR /workspace/vessel-frontend
-COPY vessel-project-structure.md /workspace/vessel-project-structure.md
 RUN npm install
 
 WORKDIR /workspace
@@ -51,4 +54,4 @@ LABEL vessel.mounts='[{"name":"root","path":"/root","size":"1Gi","description":"
 
 EXPOSE 3000 3300 4096 5173
 
-CMD ["sh", "-c", "rm -f /workspace/logs/*.pid && /workspace/start-vessel.sh all && nohup opencode web --hostname 0.0.0.0 > /workspace/opencode.log 2>&1 & tail -f /dev/null"]
+CMD ["sh", "-c", "rm -f /workspace/logs/*.pid && ./scripts/start-vessel.sh all && nohup opencode web --hostname 0.0.0.0 > /workspace/opencode.log 2>&1 & tail -f /dev/null"]

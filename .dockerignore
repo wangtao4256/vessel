@@ -18,10 +18,6 @@ Thumbs.db
 *.log
 logs/
 
-# Documentation
-*.md
-!README.md
-!vessel-project-structure.md
 
 # CI/CD
 .github
