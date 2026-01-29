@@ -28,6 +28,7 @@ RUN mkdir -p /root/.cache/oh-my-opencode/bin && \
 
 COPY opencode.json /root/.config/opencode/opencode.json
 COPY ./skills/vessel-lite-proxy-skill /root/.claude/skills/vessel-lite-proxy
+COPY ./skills/ui-ux-pro-max /root/.claude/skills/ui-ux-pro-max
 COPY start-vessel.sh /workspace/start-vessel.sh
 COPY stop-vessel.sh /workspace/stop-vessel.sh
 RUN chmod +x /workspace/start-vessel.sh /workspace/stop-vessel.sh
