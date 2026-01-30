@@ -7,7 +7,7 @@
 **你运行在 Docker 沙箱环境中，用户通过代理访问，无法直接访问 localhost。**
 
 **核心规则：**
-- 所有代码必须写入 `vessel-frontend/` 或 `vessel-backend/` 目录
+- 所有代码必须写入 `/workspace/vessel-frontend/` 或 `/workspace/vessel-backend/` 目录
 - 写完代码后必须重启对应服务，否则用户看不到效果
 - 禁止在其他目录创建独立项目或文件，用户无法访问
 - 禁止让用户"打开浏览器访问 localhost"，这在沙箱中不可行
@@ -44,7 +44,7 @@
 
 ## 工作流程
 
-1. 代码写入 `vessel-frontend/` 或 `vessel-backend/`
+1. 代码写入 `/workspace/vessel-frontend/` 或 `/workspace/vessel-backend/`
 2. 重启服务验证
 3. 输出 `VESSEL_CODE_GENERATED`
 
