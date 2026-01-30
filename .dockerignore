@@ -23,10 +23,22 @@ logs/
 .github
 .gitlab-ci.yml
 
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Node
+node_modules/
+
 # Backend specific
 vessel-backend/**/__pycache__
 vessel-backend/**/.pytest_cache
 vessel-backend/**/venv
+vessel-backend/**/.venv
 vessel-backend/**/.env
 vessel-backend/**/*.db
 vessel-backend/**/*.db-journal

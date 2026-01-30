@@ -1,9 +1,45 @@
-FROM node:20-bullseye
+# ============================================
+# Stage 1: Python Dependencies
+# ============================================
+FROM python:3.11-slim AS python-builder
+
+WORKDIR /build
+
+COPY workspace/vessel-backend/pyproject.toml ./
+
+RUN python -m venv /opt/venv && \
+    /opt/venv/bin/pip install --no-cache-dir \
+    fastapi>=0.115.0 \
+    uvicorn[standard]>=0.32.0 \
+    pydantic>=2.10.0 \
+    pydantic-settings>=2.6.0 \
+    sqlalchemy>=2.0.36 \
+    aiosqlite==0.19.0 \
+    greenlet>=3.0.0 \
+    python-dotenv==1.0.0 \
+    python-multipart==0.0.6 \
+    httpx==0.26.0
+
+# ============================================
+# Stage 2: Node Dependencies
+# ============================================
+FROM node:20-slim AS node-builder
+
+WORKDIR /build
+
+RUN npm config set registry https://registry.npmmirror.com
+
+COPY workspace/vessel-frontend/package.json workspace/vessel-frontend/package-lock.json ./
+
+RUN npm ci && mv node_modules /opt/node_modules
+
+# ============================================
+# Stage 3: Final Image
+# ============================================
+FROM node:20-slim
 
 RUN apt-get update && apt-get install -y \
     python3 \
-    python3-venv \
-    python3-pip \
     git \
     vim \
     curl \
@@ -11,12 +47,29 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /workspace
 
-RUN npm config set registry https://registry.npmmirror.com
+COPY --from=python-builder /opt/venv /opt/venv
+COPY --from=node-builder /opt/node_modules /opt/node_modules
 
-RUN npm install -g opencode-ai
+RUN ln -sf /usr/bin/python3 /opt/venv/bin/python && \
+    ln -sf python /opt/venv/bin/python3
 
-RUN mkdir -p /root/.config/opencode
-RUN mkdir -p /root/.claude/skills
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    mv /root/.local/bin/uv /opt/venv/bin/
+
+ENV VIRTUAL_ENV=/opt/venv \
+    PATH="/opt/venv/bin:$PATH" \
+    NODE_PATH=/opt/node_modules \
+    NODE_ENV=development \
+    PYTHONUNBUFFERED=1
+
+RUN npm config set registry https://registry.npmmirror.com && \
+    npm install -g opencode-ai oh-my-opencode @different-ai/opencode-browser \
+    typescript typescript-language-server
+
+RUN /opt/venv/bin/pip install --no-cache-dir python-lsp-server
+
+RUN mkdir -p /root/.config/opencode && \
+    mkdir -p /root/.claude/skills
 
 RUN mkdir -p /root/.cache/oh-my-opencode/bin && \
     cd /tmp && \
@@ -26,40 +79,33 @@ RUN mkdir -p /root/.cache/oh-my-opencode/bin && \
     chmod +x /root/.cache/oh-my-opencode/bin/comment-checker && \
     rm -f comment-checker.tar.gz LICENSE README.md
 
-COPY opencode.json /root/.config/opencode/opencode.json
-COPY ./skills/vessel-lite-proxy-skill /root/.claude/skills/vessel-lite-proxy
-COPY ./skills/ui-ux-pro-max /root/.claude/skills/ui-ux-pro-max
-COPY ./start-vessel.sh /workspace/scripts/start-vessel.sh
-COPY ./stop-vessel.sh /workspace/scripts/stop-vessel.sh
-COPY ./docs/vessel-project-structure.md /workspace/docs/vessel-project-structure.md
-COPY ./docs/global-identity.md /workspace/docs/global-identity.md
+COPY ./.config/opencode/ /root/.config/opencode/
+COPY ./skills/ /root/.claude/skills/
 
-COPY vessel-backend /workspace/vessel-backend
-COPY vessel-frontend /workspace/vessel-frontend
+COPY ./workspace/ /workspace/
+
+RUN rm -rf /workspace/vessel-backend/venv && \
+    rm -rf /workspace/vessel-frontend/node_modules
 
 RUN chmod +x /workspace/scripts/start-vessel.sh /workspace/scripts/stop-vessel.sh
-WORKDIR /workspace/vessel-backend
-RUN python3 -m venv venv && \
-    . venv/bin/activate && \
-    pip install --no-cache-dir -r requirements.txt
 
-WORKDIR /workspace/vessel-frontend
-RUN npm install
-
-WORKDIR /workspace
-
-ENV NODE_ENV=development
-ENV PYTHONUNBUFFERED=1
-
-
-LABEL vessel.mounts='[\
-{"name":"opencode-storage","path":"/root/.local/share/opencode/storage","size":"200Mi","description":"OpenCode session messages and parts"},\
-{"name":"opencode-config","path":"/root/.config/opencode","size":"50Mi","description":"OpenCode configuration and skills"},\
-{"name":"vessel-backend","path":"/workspace/vessel-backend","size":"500Mi","description":"Backend code and .env"},\
-{"name":"vessel-db","path":"/workspace/vessel-backend/vessel.db","size":"100Mi","description":"SQLite database file"},\
-{"name":"vessel-frontend-src","path":"/workspace/vessel-frontend/src","size":"100Mi","description":"Frontend source code"}\
+LABEL vessel.mounts='[ \
+  { \
+    "name": "workspace", \
+    "mountPath": "/workspace", \
+    "volumePath": "", \
+    "size": "1Gi", \
+    "description": "Project code, database, logs" \
+  }, \
+  { \
+    "name": "opencode-storage", \
+    "mountPath": "/root/.local/share/opencode/storage", \
+    "volumePath": "opencode-storage", \
+    "size": "512Mi", \
+    "description": "OpenCode session data and storage" \
+  } \
 ]'
 
-EXPOSE 3000 3300 4096 5173
+EXPOSE 3300 4096 5173
 
-CMD ["sh", "-c", "rm -f /workspace/logs/*.pid && ./scripts/start-vessel.sh all && nohup opencode web --hostname 0.0.0.0 > /workspace/opencode.log 2>&1 & tail -f /dev/null"]
+CMD ["sh", "-c", "rm -f /workspace/logs/*.pid && ./scripts/start-vessel.sh all && opencode serve --hostname 0.0.0.0 --port 4096"]

@@ -8,6 +8,10 @@ FRONTEND_LOG="$LOG_DIR/frontend.log"
 BACKEND_PID_FILE="$LOG_DIR/backend.pid"
 FRONTEND_PID_FILE="$LOG_DIR/frontend.pid"
 
+# 预装依赖路径
+BASE_VENV="/opt/venv"
+BASE_NODE_MODULES="/opt/node_modules"
+
 mkdir -p "$LOG_DIR"
 
 show_usage() {
@@ -54,33 +58,39 @@ start_backend() {
     
     cd "$BACKEND_DIR" || return 1
     
-    if [ ! -d "venv" ]; then
-        echo "警告: 虚拟环境不存在，正在创建..."
-        python3 -m venv venv
+    # 优先使用用户自定义 .venv，否则用预装的
+    if [ -d "$BACKEND_DIR/.venv" ]; then
+        echo "使用用户 venv: $BACKEND_DIR/.venv"
+        source "$BACKEND_DIR/.venv/bin/activate"
+    elif [ -d "$BASE_VENV" ]; then
+        echo "使用预装 venv: $BASE_VENV"
+        export VIRTUAL_ENV="$BASE_VENV"
+        export PATH="$BASE_VENV/bin:$PATH"
+    else
+        echo "警告: 未找到虚拟环境，尝试使用系统 Python"
     fi
     
-    echo "激活虚拟环境..."
-    source venv/bin/activate
-    
-    if [ -f "requirements.txt" ]; then
-        echo "检查并安装依赖..."
-        pip install -r requirements.txt >> "$BACKEND_LOG" 2>&1
-    fi
+    echo "Python: $(which python)"
     
     echo "启动后端服务..."
     nohup python run.py >> "$BACKEND_LOG" 2>&1 &
     BACKEND_PID=$!
     echo $BACKEND_PID > "$BACKEND_PID_FILE"
     
-    sleep 2
-    if ps -p $BACKEND_PID > /dev/null 2>&1; then
-        echo "✅ 后端服务已启动 (PID: $BACKEND_PID)"
-        echo "   日志文件: $BACKEND_LOG"
-        echo "   访问地址: http://localhost:3300"
-    else
-        echo "❌ 后端服务启动失败，请查看日志: $BACKEND_LOG"
-        return 1
-    fi
+    # 等待后端服务启动，最多等待 30 秒
+    echo "等待后端服务启动..."
+    for i in $(seq 1 30); do
+        if curl -s http://localhost:3300/health > /dev/null 2>&1; then
+            echo "✅ 后端服务已启动 (PID: $BACKEND_PID)"
+            echo "   日志文件: $BACKEND_LOG"
+            echo "   访问地址: http://localhost:3300"
+            return 0
+        fi
+        sleep 1
+    done
+    
+    echo "❌ 后端服务启动超时，请查看日志: $BACKEND_LOG"
+    return 1
 }
 
 start_frontend() {
@@ -104,9 +114,16 @@ start_frontend() {
     
     cd "$FRONTEND_DIR" || return 1
     
-    if [ ! -d "node_modules" ]; then
-        echo "安装依赖..."
-        npm install >> "$FRONTEND_LOG" 2>&1
+    # 优先使用用户 node_modules，否则创建软链接到预装的
+    if [ ! -d "$FRONTEND_DIR/node_modules" ]; then
+        if [ -d "$BASE_NODE_MODULES" ]; then
+            echo "创建软链接到预装 node_modules: $BASE_NODE_MODULES"
+            ln -s "$BASE_NODE_MODULES" "$FRONTEND_DIR/node_modules"
+        else
+            echo "警告: 未找到预装 node_modules，需要手动安装依赖"
+        fi
+    else
+        echo "使用用户 node_modules"
     fi
     
     echo "启动前端开发服务器..."
@@ -114,15 +131,19 @@ start_frontend() {
     FRONTEND_PID=$!
     echo $FRONTEND_PID > "$FRONTEND_PID_FILE"
     
-    sleep 2
-    if ps -p $FRONTEND_PID > /dev/null 2>&1; then
-        echo "✅ 前端服务已启动 (PID: $FRONTEND_PID)"
-        echo "   日志文件: $FRONTEND_LOG"
-        echo "   访问地址: http://localhost:5173"
-    else
-        echo "❌ 前端服务启动失败，请查看日志: $FRONTEND_LOG"
-        return 1
-    fi
+    echo "等待前端服务启动..."
+    for i in $(seq 1 30); do
+        if curl -s http://localhost:5173 > /dev/null 2>&1; then
+            echo "✅ 前端服务已启动 (PID: $FRONTEND_PID)"
+            echo "   日志文件: $FRONTEND_LOG"
+            echo "   访问地址: http://localhost:5173"
+            return 0
+        fi
+        sleep 1
+    done
+    
+    echo "❌ 前端服务启动超时，请查看日志: $FRONTEND_LOG"
+    return 1
 }
 
 MODE="${1:-all}"

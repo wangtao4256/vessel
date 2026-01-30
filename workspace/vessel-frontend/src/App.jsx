@@ -5,7 +5,7 @@ function App() {
 
   const handleFetch = async () => {
     try {
-      const response = await fetch('http://localhost:3300/api/v1/examples', {
+      const response = await fetch('/api/v1/examples', {
         method: 'GET'
       });
 
