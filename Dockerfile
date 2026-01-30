@@ -100,13 +100,15 @@ LABEL vessel.mounts='[ \
     "name": "workspace", \
     "mountPath": "/workspace", \
     "volumePath": "/workspace", \
-    "description": "Project workspace" \
+    "description": "Project workspace", \
+    "initCopy": true \
   }, \
   { \
     "name": "opencode-storage", \
     "mountPath": "/root/.local/share/opencode/storage", \
     "volumePath": "/root/.local/share/opencode/storage", \
-    "description": "OpenCode session data" \
+    "description": "OpenCode session data", \
+    "initCopy": false \
   } \
 ]'
 
