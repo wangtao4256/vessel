@@ -69,7 +69,9 @@ RUN npm config set registry https://registry.npmmirror.com && \
 RUN /opt/venv/bin/pip install --no-cache-dir python-lsp-server
 
 RUN mkdir -p /root/.config/opencode && \
-    mkdir -p /root/.claude/skills
+    mkdir -p /root/.claude/skills && \
+    mkdir -p /root/.local/share/opencode/storage/project && \
+    echo '{"id":"global","worktree":"/workspace","sandboxes":[]}' > /root/.local/share/opencode/storage/project/global.json
 
 RUN mkdir -p /root/.cache/oh-my-opencode/bin && \
     cd /tmp && \
@@ -88,6 +90,12 @@ RUN rm -rf /workspace/vessel-backend/venv && \
     rm -rf /workspace/vessel-frontend/node_modules
 
 RUN chmod +x /workspace/scripts/start-vessel.sh /workspace/scripts/stop-vessel.sh
+
+# 初始化 git 仓库并创建初始 commit，让 OpenCode 识别 worktree 为 /workspace
+RUN cd /workspace && \
+    git config --global user.email "x" && \
+    git config --global user.name "x" && \
+    git init && git add -A && git commit -m "init"
 
 LABEL vessel.mounts='[ \
   { \
@@ -108,4 +116,6 @@ LABEL vessel.mounts='[ \
 
 EXPOSE 3300 4096 5173
 
-CMD ["sh", "-c", "rm -f /workspace/logs/*.pid && ./scripts/start-vessel.sh all && opencode serve --hostname 0.0.0.0 --port 4096"]
+WORKDIR /workspace
+
+CMD ["sh", "-c", "cd /workspace && ./scripts/start-vessel.sh all && exec opencode serve --hostname 0.0.0.0 --port 4096"]
