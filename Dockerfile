@@ -69,9 +69,7 @@ RUN npm config set registry https://registry.npmmirror.com && \
 RUN /opt/venv/bin/pip install --no-cache-dir python-lsp-server
 
 RUN mkdir -p /root/.config/opencode && \
-    mkdir -p /root/.claude/skills && \
-    mkdir -p /root/.local/share/opencode/storage/project && \
-    echo '{"id":"global","worktree":"/workspace","sandboxes":[]}' > /root/.local/share/opencode/storage/project/global.json
+    mkdir -p /root/.claude/skills
 
 RUN mkdir -p /root/.cache/oh-my-opencode/bin && \
     cd /tmp && \
@@ -102,15 +100,13 @@ LABEL vessel.mounts='[ \
     "name": "workspace", \
     "mountPath": "/workspace", \
     "volumePath": "", \
-    "size": "1Gi", \
-    "description": "Project code, database, logs" \
+    "description": "Project workspace" \
   }, \
   { \
     "name": "opencode-storage", \
     "mountPath": "/root/.local/share/opencode/storage", \
     "volumePath": "opencode-storage", \
-    "size": "512Mi", \
-    "description": "OpenCode session data and storage" \
+    "description": "OpenCode session data" \
   } \
 ]'
 
