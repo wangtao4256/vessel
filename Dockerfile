@@ -60,10 +60,10 @@ ENV VIRTUAL_ENV=/opt/venv \
     PATH="/opt/venv/bin:$PATH" \
     NODE_PATH=/opt/node_modules \
     NODE_ENV=development \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 
 
 RUN npm config set registry https://registry.npmmirror.com && \
-    npm install -g opencode-ai oh-my-opencode @different-ai/opencode-browser \
+    npm install -g opencode-ai@1.1.45 oh-my-opencode@3.1.7 \
     typescript typescript-language-server
 
 RUN /opt/venv/bin/pip install --no-cache-dir python-lsp-server

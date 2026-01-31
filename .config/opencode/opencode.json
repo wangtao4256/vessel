@@ -67,7 +67,6 @@
     }
   },
   "plugin": [
-    "oh-my-opencode",
-    "@different-ai/opencode-browser"
+    "oh-my-opencode@3.1.7",
   ]
 }
