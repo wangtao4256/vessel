@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     # 应用基础配置
     app_name: str = "vessel-backend"
     app_version: str = "1.0.0"
-    debug: bool = True
+    debug: bool = False
     host: str = "0.0.0.0"
     port: int = 3300
 
