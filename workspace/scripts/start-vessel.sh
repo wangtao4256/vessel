@@ -18,28 +18,83 @@ show_usage() {
     echo "用法: $0 [选项]"
     echo ""
     echo "选项:"
-    echo "  backend   - 后台启动后端服务"
-    echo "  frontend  - 后台启动前端服务"
-    echo "  all       - 后台启动前后端（默认）"
+    echo "  backend   - 启动后端服务（会先停止已有服务）"
+    echo "  frontend  - 启动前端服务（会先停止已有服务）"
+    echo "  all       - 启动前后端（默认，会先停止已有服务）"
     echo ""
     echo "示例:"
-    echo "  $0              # 后台启动前后端"
-    echo "  $0 all          # 后台启动前后端"
-    echo "  $0 backend      # 后台启动后端"
-    echo "  $0 frontend     # 后台启动前端"
-    echo ""
-    echo "日志文件:"
-    echo "  后端日志: $BACKEND_LOG"
-    echo "  前端日志: $FRONTEND_LOG"
-    echo ""
-    echo "PID 文件:"
-    echo "  后端 PID: $BACKEND_PID_FILE"
-    echo "  前端 PID: $FRONTEND_PID_FILE"
+    echo "  $0              # 启动前后端"
+    echo "  $0 all          # 启动前后端"
+    echo "  $0 backend      # 只启动后端"
+    echo "  $0 frontend     # 只启动前端"
 }
+
+# ========================================
+# 停止函数
+# ========================================
+
+stop_backend() {
+    echo "停止已有后端服务..."
+    
+    # 通过进程名查找
+    BACKEND_PIDS=$(ps aux | grep "[p]ython.*run.py" | awk '{print $2}')
+    
+    if [ -z "$BACKEND_PIDS" ]; then
+        echo "  未找到运行中的后端服务"
+        return 0
+    fi
+    
+    for PID in $BACKEND_PIDS; do
+        kill $PID 2>/dev/null
+        sleep 1
+        if ps -p $PID > /dev/null 2>&1; then
+            kill -9 $PID 2>/dev/null
+        fi
+    done
+    
+    # 清理端口 3300
+    PORT_PIDS=$(lsof -ti:3300 2>/dev/null)
+    if [ ! -z "$PORT_PIDS" ]; then
+        kill $PORT_PIDS 2>/dev/null
+    fi
+    
+    echo "  ✅ 后端服务已停止"
+}
+
+stop_frontend() {
+    echo "停止已有前端服务..."
+    
+    # 通过进程名查找
+    FRONTEND_PIDS=$(ps aux | grep -E "[n]pm.*run.*dev|[v]ite" | grep -v grep | awk '{print $2}')
+    
+    if [ -z "$FRONTEND_PIDS" ]; then
+        echo "  未找到运行中的前端服务"
+    else
+        for PID in $FRONTEND_PIDS; do
+            kill $PID 2>/dev/null
+            sleep 1
+            if ps -p $PID > /dev/null 2>&1; then
+                kill -9 $PID 2>/dev/null
+            fi
+        done
+    fi
+    
+    # 清理端口 5173
+    PORT_PIDS=$(lsof -ti:5173 2>/dev/null)
+    if [ ! -z "$PORT_PIDS" ]; then
+        kill $PORT_PIDS 2>/dev/null
+    fi
+    
+    echo "  ✅ 前端服务已停止"
+}
+
+# ========================================
+# 启动函数
+# ========================================
 
 start_backend() {
     echo "========================================="
-    echo "启动 Vessel Backend (后台模式)"
+    echo "启动 Vessel Backend"
     echo "========================================="
     
     if [ ! -d "$BACKEND_DIR" ]; then
@@ -47,14 +102,8 @@ start_backend() {
         return 1
     fi
     
-    if [ -f "$BACKEND_PID_FILE" ]; then
-        OLD_PID=$(cat "$BACKEND_PID_FILE")
-        if ps -p "$OLD_PID" > /dev/null 2>&1; then
-            echo "警告: 后端服务已在运行 (PID: $OLD_PID)"
-            echo "请先使用 stop-vessel.sh 停止服务"
-            return 1
-        fi
-    fi
+    # 先停止已有服务
+    stop_backend
     
     cd "$BACKEND_DIR" || return 1
     
@@ -77,7 +126,7 @@ start_backend() {
     BACKEND_PID=$!
     echo $BACKEND_PID > "$BACKEND_PID_FILE"
     
-    # 等待后端服务启动，最多等待 30 秒
+    # 等待后端服务启动
     echo "等待后端服务启动..."
     for i in $(seq 1 30); do
         if curl -s http://localhost:3300/health > /dev/null 2>&1; then
@@ -95,7 +144,7 @@ start_backend() {
 
 start_frontend() {
     echo "========================================="
-    echo "启动 Vessel Frontend (后台模式)"
+    echo "启动 Vessel Frontend"
     echo "========================================="
     
     if [ ! -d "$FRONTEND_DIR" ]; then
@@ -103,14 +152,8 @@ start_frontend() {
         return 1
     fi
     
-    if [ -f "$FRONTEND_PID_FILE" ]; then
-        OLD_PID=$(cat "$FRONTEND_PID_FILE")
-        if ps -p "$OLD_PID" > /dev/null 2>&1; then
-            echo "警告: 前端服务已在运行 (PID: $OLD_PID)"
-            echo "请先使用 stop-vessel.sh 停止服务"
-            return 1
-        fi
-    fi
+    # 先停止已有服务
+    stop_frontend
     
     cd "$FRONTEND_DIR" || return 1
     
@@ -131,6 +174,7 @@ start_frontend() {
     FRONTEND_PID=$!
     echo $FRONTEND_PID > "$FRONTEND_PID_FILE"
     
+    # 等待前端服务启动
     echo "等待前端服务启动..."
     for i in $(seq 1 30); do
         if curl -s http://localhost:5173 > /dev/null 2>&1; then
@@ -146,6 +190,10 @@ start_frontend() {
     return 1
 }
 
+# ========================================
+# 主逻辑
+# ========================================
+
 MODE="${1:-all}"
 
 case "$MODE" in
@@ -157,7 +205,7 @@ case "$MODE" in
         ;;
     all)
         echo "========================================="
-        echo "启动 Vessel 前后端项目 (后台模式)"
+        echo "启动 Vessel 前后端项目"
         echo "========================================="
         echo ""
         
@@ -186,7 +234,6 @@ case "$MODE" in
             echo "  后端: $BACKEND_LOG"
             echo "  前端: $FRONTEND_LOG"
             echo ""
-            echo "停止服务: ./stop-vessel.sh all"
             echo "查看日志: tail -f $BACKEND_LOG"
             echo "         tail -f $FRONTEND_LOG"
         else

@@ -87,7 +87,7 @@ COPY ./workspace/ /workspace/
 RUN rm -rf /workspace/vessel-backend/venv && \
     rm -rf /workspace/vessel-frontend/node_modules
 
-RUN chmod +x /workspace/scripts/start-vessel.sh /workspace/scripts/stop-vessel.sh
+RUN chmod +x /workspace/scripts/start-vessel.sh
 
 # 初始化 git 仓库并创建初始 commit，让 OpenCode 识别 worktree 为 /workspace
 RUN cd /workspace && \

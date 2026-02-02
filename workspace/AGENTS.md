@@ -91,15 +91,10 @@ vessel-backend/app/
 ## 服务管理
 
 ```bash
-# 启动服务
+# 启动服务（会自动先停止已有服务）
 ./scripts/start-vessel.sh all       # 启动全部
 ./scripts/start-vessel.sh frontend  # 仅前端
 ./scripts/start-vessel.sh backend   # 仅后端
-
-# 停止服务
-./scripts/stop-vessel.sh all
-./scripts/stop-vessel.sh frontend
-./scripts/stop-vessel.sh backend
 ```
 
 ## 开发规范

@@ -50,9 +50,8 @@ vessel/
 ## 命令
 
 ```bash
-# 服务管理
+# 服务管理（启动时会自动先停止已有服务）
 ./workspace/scripts/start-vessel.sh all      # 启动全部
-./workspace/scripts/stop-vessel.sh all       # 停止全部
 
 # Docker 构建
 docker build -t vessel:v1.0.0 .
