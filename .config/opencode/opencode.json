@@ -4,70 +4,33 @@
     "~/.config/opencode/instructions/global-identity.md",
     "~/.config/opencode/instructions/vessel-rules.md"
   ],
-  "model": "anthropic/claude-sonnet-4-5-20250929",
-  "small_model": "anthropic/claude-haiku-4-5-20251001",
+  "model": "qwen/qwen3-coder-plus",
+  "small_model": "qwen/qwen3-coder-plus",
   "agent": {
     "title": {
-      "model": "anthropic/claude-haiku-4-5-20251001"
+      "model": "qwen/qwen3-coder-plus"
     },
     "compaction": {
-      "model": "codex/gpt-5.2"
+      "model": "qwen/qwen3-coder-plus"
     }
   },
-
   "provider": {
-    "anthropic": {
-      "npm": "@ai-sdk/anthropic",
-      "name": "Anthropic",
+    "qwen": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Bailian Coding Plan",
       "options": {
-        "baseURL": "https://code.newcli.com/claude/aws/v1",
-        "apiKey": "sk-ant-oat01-mlM8kmfo6VWs7EdylgW3tXkrwnB2EcKJz9moDwrXeFEfZbksLhFf6M1H5gECy__RyUzi2RHuv1O9WEYIcDUsP1yafahSPAA"
+        "baseURL": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "apiKey": "sk-8c5271f99d5d46d5b0ec744248a61b14"
       },
       "models": {
-        "claude-opus-4-5-20251101": {
-          "name": "Claude Opus 4.5",
-          "limit": {
-            "context": 200000,
-            "output": 8192
-          }
-        },
-        "claude-sonnet-4-5-20250929": {
-          "name": "Claude Sonnet 4.5",
-          "limit": {
-            "context": 200000,
-            "output": 8192
-          }
-        },
-        "claude-haiku-4-5-20251001": {
-          "name": "Claude Haiku 4.5",
-          "limit": {
-            "context": 200000,
-            "output": 8192
-          }
-        }
-      }
-    },
-    "codex": {
-      "npm": "@ai-sdk/openai",
-      "name": "Codex",
-      "options": {
-        "baseURL": "https://code.newcli.com/codex/v1",
-        "apiKey": "sk-ant-oat01-K4UvoBgGxt2wapHWhNLLg8lymcfBqhIj-h8DIBPL4lCzVbsVmnJfWQLrxYUC1TV8_J259LhbriFOK5Lxc4IPmXySzqh-3AA"
-      },
-      "models": {
-        "gpt-5.2": {
-          "name": "GPT 5.2",
-          "limit": { "context": 272000, "output": 128000 }
-        },
-        "gpt-5.2-codex": {
-          "name": "GPT 5.2 Codex",
-          "limit": { "context": 272000, "output": 128000 }
+        "qwen3-coder-plus": {
+          "name": "qwen3-coder-plus"
         }
       }
     }
   },
   "plugin": [
-    "oh-my-opencode@3.1.7"
+    "oh-my-opencode@3.2.1"
   ],
   "lsp": false
 }

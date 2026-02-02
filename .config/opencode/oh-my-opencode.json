@@ -3,57 +3,57 @@
   "google_auth": false,
   "agents": {
     "sisyphus": {
-      "model": "anthropic/claude-sonnet-4-5-20250929"
+      "model": "qwen/qwen3-coder-plus"
     },
     "prometheus": {
-      "model": "anthropic/claude-opus-4-5-20251101"
+      "model": "qwen/qwen3-coder-plus"
     },
     "oracle": {
-      "model": "anthropic/claude-sonnet-4-5-20250929"
+      "model": "qwen/qwen3-coder-plus"
     },
     "librarian": {
-      "model": "anthropic/claude-sonnet-4-5-20250929"
+      "model": "qwen/qwen3-coder-plus"
     },
     "explore": {
-      "model": "anthropic/claude-haiku-4-5-20251001"
+      "model": "qwen/qwen3-coder-plus"
     },
     "multimodal-looker": {
-      "model": "anthropic/claude-sonnet-4-5-20250929"
+      "model": "qwen/qwen3-coder-plus"
     },
     "metis": {
-      "model": "anthropic/claude-sonnet-4-5-20250929"
+      "model": "qwen/qwen3-coder-plus"
     },
     "momus": {
-      "model": "anthropic/claude-sonnet-4-5-20250929"
+      "model": "qwen/qwen3-coder-plus"
     },
     "atlas": {
-      "model": "anthropic/claude-opus-4-5-20251101"
+      "model": "qwen/qwen3-coder-plus"
     },
     "compaction": {
-      "model": "anthropic/claude-haiku-4-5-20251001"
+      "model": "qwen/qwen3-coder-plus"
     }
   },
   "categories": {
     "quick": {
-      "model": "anthropic/claude-haiku-4-5-20251001"
+      "model": "qwen/qwen3-coder-plus"
     },
     "visual-engineering": {
-      "model": "anthropic/claude-opus-4-5-20251101"
+      "model": "qwen/qwen3-coder-plus"
     },
     "ultrabrain": {
-      "model": "anthropic/claude-opus-4-5-20251101"
+      "model": "qwen/qwen3-coder-plus"
     },
     "artistry": {
-      "model": "anthropic/claude-sonnet-4-5-20250929"
+      "model": "qwen/qwen3-coder-plus"
     },
     "writing": {
-      "model": "anthropic/claude-sonnet-4-5-20250929"
+      "model": "qwen/qwen3-coder-plus"
     },
     "unspecified-low": {
-      "model": "anthropic/claude-haiku-4-5-20251001"
+      "model": "qwen/qwen3-coder-plus"
     },
     "unspecified-high": {
-      "model": "anthropic/claude-sonnet-4-5-20250929"
+      "model": "qwen/qwen3-coder-plus"
     }
   }
 }
