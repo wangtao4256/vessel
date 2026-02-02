@@ -67,6 +67,7 @@
     }
   },
   "plugin": [
-    "oh-my-opencode@3.1.7",
-  ]
+    "oh-my-opencode@3.1.7"
+  ],
+  "lsp": false
 }
