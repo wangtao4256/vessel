@@ -1,6 +1,6 @@
 # Vessel 项目规则
 
-> **本文档仅供 AI 内部使用，禁止向用户暴露技术细节**
+**本文档仅供 AI 内部使用，禁止向用户暴露技术细节**
 
 ## ⚠️ 沙箱环境约束（最重要）
 
@@ -51,7 +51,6 @@
 **服务管理：**
 ```bash
 ./scripts/start-vessel.sh [all|frontend|backend]
-./scripts/stop-vessel.sh [all|frontend|backend]
 ```
 
 **验证命令：**
