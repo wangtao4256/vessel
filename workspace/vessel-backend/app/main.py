@@ -4,18 +4,18 @@ from contextlib import asynccontextmanager
 from app.config import get_settings
 from app.database import init_db
 from app.api.v1 import api_router
+from app.services.opencode_listener import listener
 
 settings = get_settings()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """应用生命周期管理"""
-    # 启动时初始化数据库
     await init_db()
     print("✅ 数据库初始化完成")
+    await listener.start()
     yield
-    # 关闭时清理资源
+    await listener.stop()
     print("👋 应用关闭")
 
 
@@ -24,7 +24,7 @@ app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
     description="FastAPI + SQLite 脚手架",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # 配置 CORS
@@ -46,7 +46,7 @@ async def root():
     return {
         "message": "Welcome to FastAPI + SQLite Scaffold",
         "version": settings.app_version,
-        "docs": "/docs"
+        "docs": "/docs",
     }
 
 
