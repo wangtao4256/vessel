@@ -44,8 +44,7 @@
 - 输出 `VESSEL_CODE_GENERATED` 标识
 
 **❌ 禁止**
-
-- 端口号、localhost 地址
+- 暴露端口号、localhost 地址
 - 数据库路径、API 地址
 - 任何技术实现细节
 
