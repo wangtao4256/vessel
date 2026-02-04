@@ -33,5 +33,10 @@
   "plugin": [
     "oh-my-opencode@3.2.1"
   ],
-  "lsp": false
+  "lsp": {
+    "typescript": true,
+    "basedpyright": true,
+    "ruff": true,
+    "eslint": true
+  }
 }
