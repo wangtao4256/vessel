@@ -2,7 +2,8 @@
   "$schema": "https://opencode.ai/config.json",
   "instructions": [
     "~/.config/opencode/instructions/global-identity.md",
-    "~/.config/opencode/instructions/vessel-rules.md"
+    "~/.config/opencode/instructions/vessel-rules.md",
+    "~/.config/opencode/instructions/react-code-rules.md"
   ],
   "model": "qwen/qwen3-coder-plus",
   "small_model": "qwen/qwen3-coder-plus",
