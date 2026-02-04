@@ -37,7 +37,9 @@ class OpenCodeEventListener:
                 await asyncio.sleep(5)
 
     async def _connect_and_listen(self):
-        async with httpx.AsyncClient(timeout=None) as client:
+        # SSE 长连接需要禁用读取超时，否则空闲时会断开
+        timeout = httpx.Timeout(connect=30.0, read=None, write=None, pool=None)
+        async with httpx.AsyncClient(timeout=timeout) as client:
             async with client.stream("GET", f"{self.opencode_url}/event") as resp:
                 await self._process_stream(resp)
 

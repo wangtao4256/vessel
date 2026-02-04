@@ -31,12 +31,7 @@
     }
   },
   "plugin": [
-    "oh-my-opencode@3.2.1"
-  ],
-  "lsp": {
-    "typescript": true,
-    "basedpyright": true,
-    "ruff": true,
-    "eslint": true
-  }
+    "oh-my-opencode@3.2.1",
+    "@different-ai/opencode-browser"
+  ]
 }
