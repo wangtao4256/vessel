@@ -77,6 +77,7 @@ ENV VIRTUAL_ENV=/opt/venv \
 # - ruff: Python linter LSP
 RUN npm config set registry https://registry.npmmirror.com && \
     npm install -g opencode-ai@1.1.45 oh-my-opencode@3.1.7 \
+    @different-ai/opencode-browser \
     typescript typescript-language-server \
     vscode-langservers-extracted && \
     /opt/venv/bin/pip install --no-cache-dir basedpyright ruff

@@ -36,56 +36,96 @@ show_usage() {
 stop_backend() {
     echo "停止已有后端服务..."
     
-    # 通过进程名查找
-    BACKEND_PIDS=$(ps aux | grep "[p]ython.*run.py" | awk '{print $2}')
+    FOUND=0
     
-    if [ -z "$BACKEND_PIDS" ]; then
-        echo "  未找到运行中的后端服务"
-        return 0
-    fi
-    
-    for PID in $BACKEND_PIDS; do
-        kill $PID 2>/dev/null
-        sleep 1
-        if ps -p $PID > /dev/null 2>&1; then
+    # 方式1: 通过 PID 文件 (兼容精简容器)
+    if [ -f "$BACKEND_PID_FILE" ]; then
+        PID=$(cat "$BACKEND_PID_FILE")
+        if kill -0 $PID 2>/dev/null; then
+            echo "  通过 PID 文件停止进程: $PID"
+            kill $PID 2>/dev/null
+            sleep 1
             kill -9 $PID 2>/dev/null
+            FOUND=1
         fi
-    done
-    
-    # 清理端口 3300
-    PORT_PIDS=$(lsof -ti:3300 2>/dev/null)
-    if [ ! -z "$PORT_PIDS" ]; then
-        kill $PORT_PIDS 2>/dev/null
+        rm -f "$BACKEND_PID_FILE"
     fi
     
-    echo "  ✅ 后端服务已停止"
+    # 方式2: 通过进程名查找 (需要 ps 命令)
+    if command -v ps >/dev/null 2>&1; then
+        BACKEND_PIDS=$(ps aux 2>/dev/null | grep "[p]ython.*run.py" | awk '{print $2}')
+        if [ ! -z "$BACKEND_PIDS" ]; then
+            for PID in $BACKEND_PIDS; do
+                echo "  通过进程名停止: $PID"
+                kill $PID 2>/dev/null
+                sleep 1
+                kill -9 $PID 2>/dev/null
+                FOUND=1
+            done
+        fi
+    fi
+    
+    # 方式3: 清理端口 (需要 lsof 命令)
+    if command -v lsof >/dev/null 2>&1; then
+        PORT_PIDS=$(lsof -ti:3300 2>/dev/null)
+        if [ ! -z "$PORT_PIDS" ]; then
+            echo "  通过端口清理: $PORT_PIDS"
+            kill $PORT_PIDS 2>/dev/null
+            FOUND=1
+        fi
+    fi
+    
+    if [ $FOUND -eq 0 ]; then
+        echo "  未找到运行中的后端服务"
+    else
+        echo "  ✅ 后端服务已停止"
+    fi
 }
 
 stop_frontend() {
     echo "停止已有前端服务..."
     
-    # 通过进程名查找
-    FRONTEND_PIDS=$(ps aux | grep -E "[n]pm.*run.*dev|[v]ite" | grep -v grep | awk '{print $2}')
+    FOUND=0
     
-    if [ -z "$FRONTEND_PIDS" ]; then
-        echo "  未找到运行中的前端服务"
-    else
-        for PID in $FRONTEND_PIDS; do
+    if [ -f "$FRONTEND_PID_FILE" ]; then
+        PID=$(cat "$FRONTEND_PID_FILE")
+        if kill -0 $PID 2>/dev/null; then
+            echo "  通过 PID 文件停止进程: $PID"
             kill $PID 2>/dev/null
             sleep 1
-            if ps -p $PID > /dev/null 2>&1; then
+            kill -9 $PID 2>/dev/null
+            FOUND=1
+        fi
+        rm -f "$FRONTEND_PID_FILE"
+    fi
+    
+    if command -v ps >/dev/null 2>&1; then
+        FRONTEND_PIDS=$(ps aux 2>/dev/null | grep -E "[n]pm.*run.*dev|[v]ite" | grep -v grep | awk '{print $2}')
+        if [ ! -z "$FRONTEND_PIDS" ]; then
+            for PID in $FRONTEND_PIDS; do
+                echo "  通过进程名停止: $PID"
+                kill $PID 2>/dev/null
+                sleep 1
                 kill -9 $PID 2>/dev/null
-            fi
-        done
+                FOUND=1
+            done
+        fi
     fi
     
-    # 清理端口 5173
-    PORT_PIDS=$(lsof -ti:5173 2>/dev/null)
-    if [ ! -z "$PORT_PIDS" ]; then
-        kill $PORT_PIDS 2>/dev/null
+    if command -v lsof >/dev/null 2>&1; then
+        PORT_PIDS=$(lsof -ti:5173 2>/dev/null)
+        if [ ! -z "$PORT_PIDS" ]; then
+            echo "  通过端口清理: $PORT_PIDS"
+            kill $PORT_PIDS 2>/dev/null
+            FOUND=1
+        fi
     fi
     
-    echo "  ✅ 前端服务已停止"
+    if [ $FOUND -eq 0 ]; then
+        echo "  未找到运行中的前端服务"
+    else
+        echo "  ✅ 前端服务已停止"
+    fi
 }
 
 # ========================================
