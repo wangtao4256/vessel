@@ -1,3 +1,5 @@
+# vessel-frontend前端项目规范
+
 # React 编码规则
 这是vessel-frontend项目的编码规则 请严格遵守
 ## 1. 组件命名规范
