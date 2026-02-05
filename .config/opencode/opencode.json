@@ -3,7 +3,8 @@
   "instructions": [
     "~/.config/opencode/instructions/global-identity.md",
     "~/.config/opencode/instructions/vessel-rules.md",
-    "~/.config/opencode/instructions/react-code-rules.md"
+    "~/.config/opencode/instructions/vessel-backend-rules.md",
+    "~/.config/opencode/instructions/vessel-frontend-rules.md"
   ],
   "model": "qwen/qwen3-coder-plus",
   "small_model": "qwen/qwen3-coder-plus",
