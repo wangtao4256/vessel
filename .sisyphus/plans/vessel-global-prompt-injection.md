@@ -175,7 +175,7 @@
 ### Verification Commands
 ```bash
 # 验证配置文件
-docker exec vessel-dev cat /root/.config/opencode/opencode.json | grep -A2 instructions
+docker exec vessel-dev cat /root/.config/opencode/opencode.json.qianwen | grep -A2 instructions
 
 # 验证规则文件
 docker exec vessel-dev cat /workspace/docs/vessel-rules.md

@@ -1,11 +1,9 @@
-name: Build and Push to Aliyun
+name: Build and Push Preview Image
 
 on:
   push:
-    branches:
-      - master
     tags:
-      - 'v*.*.*'
+      - 'preview-v*.*.*'
   workflow_dispatch:
     inputs:
       version:
@@ -16,7 +14,7 @@ on:
 env:
   ACR_REGISTRY: ziwuxian-registry.cn-beijing.cr.aliyuncs.com
   ACR_NAMESPACE: ai-coding
-  IMAGE_NAME: vessel
+  IMAGE_NAME: vessel-preview
   ACR_INSTANCE_ID: cri-4afbf1u4sbrqb5fy
 
 jobs:
@@ -55,50 +53,25 @@ jobs:
         id: version
         run: |
           if [[ "${{ github.ref }}" == refs/tags/* ]]; then
-            VERSION=${GITHUB_REF#refs/tags/v}
+            VERSION=${GITHUB_REF#refs/tags/preview-v}
             echo "version=v${VERSION}" >> $GITHUB_OUTPUT
           elif [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
             echo "version=v${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
-          else
-            LATEST_TAG=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
-            
-            if [ -z "$LATEST_TAG" ]; then
-              NEW_VERSION="v1.0.0"
-            else
-              VERSION_NUM=${LATEST_TAG#v}
-              MAJOR=$(echo $VERSION_NUM | cut -d. -f1)
-              MINOR=$(echo $VERSION_NUM | cut -d. -f2)
-              PATCH=$(echo $VERSION_NUM | cut -d. -f3)
-              
-              NEW_PATCH=$((PATCH + 1))
-              NEW_VERSION="v${MAJOR}.${MINOR}.${NEW_PATCH}"
-            fi
-            
-            echo "version=${NEW_VERSION}" >> $GITHUB_OUTPUT
-            echo "Latest tag: ${LATEST_TAG:-none}"
-            echo "New version: ${NEW_VERSION}"
           fi
 
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: docker/Dockerfile.preview
           push: true
+          build-args: |
+            VERSION=${{ steps.version.outputs.version }}
           tags: |
             ${{ env.ACR_REGISTRY }}/${{ env.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
 
-      - name: Create and push git tag
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag ${{ steps.version.outputs.version }}
-          git push origin ${{ steps.version.outputs.version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Image pushed summary
         run: |
-          echo "### Image Pushed Successfully! :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "### Preview Image Pushed! :rocket:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Image**: \`${{ env.ACR_REGISTRY }}/${{ env.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
