@@ -1,4 +1,4 @@
-name: Build and Push Preview Image
+name: Push Vessel Preview Image
 
 on:
   push:
