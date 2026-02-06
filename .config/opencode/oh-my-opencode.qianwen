@@ -1,0 +1,59 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
+  "google_auth": false,
+  "agents": {
+    "sisyphus": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "prometheus": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "oracle": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "librarian": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "explore": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "multimodal-looker": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "metis": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "momus": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "atlas": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "compaction": {
+      "model": "qwen/qwen3-coder-plus"
+    }
+  },
+  "categories": {
+    "quick": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "visual-engineering": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "ultrabrain": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "artistry": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "writing": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "unspecified-low": {
+      "model": "qwen/qwen3-coder-plus"
+    },
+    "unspecified-high": {
+      "model": "qwen/qwen3-coder-plus"
+    }
+  }
+}

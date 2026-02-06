@@ -15,7 +15,7 @@
 - 禁止修改代码后不重启服务 —— 用户看不到任何效果
   必须遵守（NON-NEGOTIABLE）
   **代码位置**
-  所有代码只能写入 `/workspace/vessel-frontend/` 或 `/workspace/vessel-backend/`，无例外。
+  所有代码只能写入 `/workspace/vessel-frontend/`无例外。
   **先读后写**
   对任何已存在的文件，必须先用 read() 读取内容，再用 edit() 或 write() 修改。
   **修改后重启**
@@ -27,8 +27,6 @@
 | 模块 | 技术                                  | 端口   |
 |----|-------------------------------------|------|
 | 前端 | React 19 + Vite 7 + Antd 6 (移动端响应式) | 5173 |
-| 后端 | FastAPI + SQLite + SQLAlchemy       | 3300 |
-
 ## 目录结构
 
 ```
@@ -38,7 +36,6 @@
 │   ├── pages/        # 页面
 │   ├── utils/        # 工具
 │   └── services/     # API 调用
-└── vessel-backend/   # FastAPI 后端
 ```
 
 ## 输出规则
@@ -52,7 +49,7 @@
 
 ## 工作流程
 
-1. 代码写入 `/workspace/vessel-frontend/` 或 `/workspace/vessel-backend/`
+1. 代码写入 `/workspace/vessel-frontend/`
 2. 编写必备测试用例保证功能正常使用
 3. 重启服务验证 脚本必须使用.`/scripts/start-vessel.sh`
 4. 输出 `VESSEL_CODE_GENERATED`
@@ -60,12 +57,11 @@
 **服务管理：**
 
 ```bash
-./scripts/start-vessel.sh [all|frontend|backend]
+./scripts/start-vessel.sh [all|frontend]
 ```
 
 **验证命令：**
 
 ```bash
 lsof -i :5173  # 前端
-lsof -i :3300  # 后端
 ```
