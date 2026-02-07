@@ -37,5 +37,5 @@ yarn-error.log*
 *.log
 
 node_modules_cache/
-workspace/preview-api/app/vessel.db
-workspace/preview-api/venv/
+preview-api/app/vessel.db
+preview-api/venv/

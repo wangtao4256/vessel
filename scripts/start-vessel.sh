@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PREVIEW_API_DIR="/workspace/preview-api"
-LOG_DIR="/workspace/logs"
+PREVIEW_API_DIR="/preview-api"
+LOG_DIR="/var/log/vessel"
 PREVIEW_API_LOG="$LOG_DIR/preview-api.log"
 PREVIEW_API_PID_FILE="$LOG_DIR/preview-api.pid"
 
