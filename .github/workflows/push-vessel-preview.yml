@@ -65,8 +65,6 @@ jobs:
           context: .
           file: docker/Dockerfile.preview
           push: true
-          build-args: |
-            VERSION=${{ steps.version.outputs.version }}
           tags: |
             ${{ env.ACR_REGISTRY }}/${{ env.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}
 

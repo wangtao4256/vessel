@@ -12,7 +12,7 @@ Vessel 是一个 Docker 沙箱化的前端 Web 应用脚手架，集成 OpenCode
 ```
 vessel/
 ├── workspace/           # 应用代码 (详见 workspace/AGENTS.md)
-│   ├── vessel-frontend/ # React 19 + Vite 7 + Antd 6
+│   ├── preview-api/     # FastAPI 后端
 │   └── scripts/         # 服务管理脚本
 ├── skills/              # OpenCode 技能包
 │   ├── ui-ux-pro-max/   # UI/UX 设计智能 (SKILL.md)
@@ -35,7 +35,7 @@ vessel/
 
 ### 沙箱环境 (CRITICAL)
 
-- 代码**必须**写入 `/workspace/vessel-frontend/`
+- 代码**必须**写入 `/workspace/preview-api/`
 - 写完代码**必须**重启服务: `./scripts/start-vessel.sh`
 - **禁止**让用户访问 localhost (沙箱内不可行)
 - **禁止**向用户暴露端口号等技术细节
@@ -63,5 +63,5 @@ git tag v1.0.0 && git push origin v1.0.0
 
 | 服务 | 端口 |
 |------|------|
-| Frontend (Vite) | 5173 |
+| Backend (FastAPI) | 3300 |
 | OpenCode | 4096 |

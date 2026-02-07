@@ -112,7 +112,7 @@ LABEL vessel.mounts='[ \
   } \
 ]'
 
-EXPOSE 3300 4096 5173-5193
+EXPOSE 3300 4096 5173
 
 WORKDIR /workspace
 

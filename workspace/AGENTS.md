@@ -10,32 +10,34 @@
 
 ```
 /workspace/
-├── vessel-frontend/     # React 前端
+├── preview-api/         # Python 后端 (FastAPI)
 └── scripts/             # 服务管理脚本
 ```
 
-## 前端 (vessel-frontend)
+## 后端 (preview-api)
 
 | 项目 | 说明 |
 |------|------|
-| 框架 | React 19 + Vite 7 |
-| UI 库 | Ant Design 6 |
-| 语法 | JavaScript (JSX) |
-| 端口 | 5173 |
-| 入口 | `src/App.jsx` |
+| 框架 | FastAPI |
+| 端口 | 3300 |
+| 入口 | `app/main.py` |
 
 ### 目录说明
 
 ```
-vessel-frontend/src/
-├── App.jsx          # 应用入口
-├── App.css          # 全局样式
-├── main.jsx         # React 挂载点
-├── components/      # 可复用组件
-├── pages/           # 页面组件
-├── services/        # API 调用封装
-├── utils/           # 工具函数
-└── assets/          # 静态资源（图片、字体）
+preview-api/
+├── app/
+│   ├── main.py          # 应用入口
+│   ├── config.py        # 配置管理
+│   ├── database.py      # 数据库连接
+│   ├── api/v1/          # API 路由
+│   ├── models/          # 数据模型
+│   ├── schemas/         # Pydantic schemas
+│   ├── services/        # 业务逻辑
+│   └── utils/           # 工具函数
+├── tests/               # 测试
+├── run.py               # 启动脚本
+└── requirements.txt     # 依赖
 ```
 
 ## 服务管理
@@ -47,5 +49,6 @@ vessel-frontend/src/
 
 ## 开发规范
 
-- 组件放 `components/`，页面放 `pages/`
-- 使用 Ant Design 组件，支持移动端响应式
+- API 路由放 `app/api/v1/endpoints/`
+- 业务逻辑放 `app/services/`
+- 数据模型放 `app/models/`
