@@ -5,7 +5,7 @@ FROM python:3.11-slim AS python-builder
 
 WORKDIR /build
 
-COPY workspace/vessel-backend/pyproject.toml ./
+COPY workspace/preview-api/pyproject.toml ./
 
 RUN python -m venv /opt/venv && \
     /opt/venv/bin/pip install --no-cache-dir \
@@ -85,7 +85,7 @@ COPY ./skills/ /root/.claude/skills/
 
 COPY ./workspace/ /workspace/
 
-RUN rm -rf /workspace/vessel-backend/venv && \
+RUN rm -rf /workspace/preview-api/venv && \
     rm -rf /workspace/vessel-frontend/node_modules
 
 RUN chmod +x /workspace/scripts/start-vessel.sh
