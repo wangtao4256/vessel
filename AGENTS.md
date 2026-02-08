@@ -11,15 +11,19 @@ Vessel 是一个 Docker 沙箱化的前端 Web 应用脚手架，集成 OpenCode
 
 ```
 vessel/
-├── workspace/           # 应用代码 (详见 workspace/AGENTS.md)
-│   ├── preview-api/     # FastAPI 后端
-│   └── scripts/         # 服务管理脚本
+├── vessel-api/          # FastAPI 后端
+│   ├── app/             # 应用代码
+│   ├── scripts/         # 服务管理脚本
+│   └── workspace/       # 运行时工作目录模板
+├── workspace/           # 默认工作空间模板
+│   └── default/         # 默认项目模板
+├── docker/              # Docker 配置
+│   └── Dockerfile       # 多阶段构建镜像
 ├── skills/              # OpenCode 技能包
 │   ├── ui-ux-pro-max/   # UI/UX 设计智能 (SKILL.md)
 │   └── vessel-lite-proxy-skill/  # LiteLLM 代理参考
 ├── .config/opencode/    # OpenCode 配置
-├── .github/workflows/   # CI/CD (阿里云镜像推送)
-└── Dockerfile           # 多阶段构建镜像
+└── .github/workflows/   # CI/CD (阿里云镜像推送)
 ```
 
 ## 文档索引
@@ -35,7 +39,7 @@ vessel/
 
 ### 沙箱环境 (CRITICAL)
 
-- 代码**必须**写入 `/workspace/preview-api/`
+- 代码**必须**写入 `/workspace/vessel-api/`
 - 写完代码**必须**重启服务: `./scripts/start-vessel.sh`
 - **禁止**让用户访问 localhost (沙箱内不可行)
 - **禁止**向用户暴露端口号等技术细节

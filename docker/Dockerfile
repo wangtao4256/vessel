@@ -5,7 +5,7 @@ FROM python:3.11-slim AS python-builder
 
 WORKDIR /build
 
-COPY preview-api/pyproject.toml ./
+COPY vessel-api/pyproject.toml ./
 
 RUN python -m venv /opt/venv && \
     /opt/venv/bin/pip install --no-cache-dir \
@@ -29,7 +29,7 @@ WORKDIR /build
 
 RUN npm config set registry https://registry.npmmirror.com
 
-COPY workspace/vessel-frontend/package.json workspace/vessel-frontend/package-lock.json ./
+COPY workspace/default/vessel-frontend/package.json workspace/default/vessel-frontend/package-lock.json ./
 
 RUN npm ci && mv node_modules /opt/node_modules
 
@@ -83,16 +83,13 @@ RUN mkdir -p /root/.cache/oh-my-opencode/bin && \
 COPY ./.config/opencode/ /root/.config/opencode/
 COPY ./skills/ /root/.claude/skills/
 
-COPY ./scripts/ /scripts/
-
-COPY ./preview-api/ /preview-api/
+COPY ./vessel-api/ /vessel-api/
 
 COPY ./workspace/ /workspace/
 
-RUN rm -rf /workspace/vessel-frontend/node_modules
+RUN rm -rf /workspace/default/vessel-frontend/node_modules
 
-RUN chmod +x /scripts/start-vessel.sh && \
-    chmod +x /scripts/start-backend.sh
+RUN chmod +x /vessel-api/scripts/start-backend.sh
 
 RUN cd /workspace && \
     git config --global user.email "x" && \
@@ -120,4 +117,4 @@ EXPOSE 3300 4096 5173
 
 WORKDIR /workspace
 
-CMD ["sh", "-c", "/scripts/start-vessel.sh && /scripts/start-backend.sh && exec opencode serve --hostname 0.0.0.0 --port 4096"]
+CMD ["sh", "-c", "/vessel-api/scripts/start-backend.sh && exec opencode serve --hostname 0.0.0.0 --port 4096"]

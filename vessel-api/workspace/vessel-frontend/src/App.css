@@ -1,0 +1,68 @@
+#root {
+  width: 100%;
+  min-height: 100vh;
+  padding: 16px;
+  padding-bottom: 90px;
+}
+
+@media (min-width: 640px) {
+  #root { padding: 24px; padding-bottom: 90px; }
+}
+
+@media (min-width: 1024px) {
+  #root { max-width: 1200px; margin: 0 auto; padding: 32px; padding-bottom: 90px; }
+}
+
+.welcome-container {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.welcome-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 48px 40px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  max-width: 480px;
+  width: 100%;
+}
+
+.welcome-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.welcome-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 8px 0;
+}
+
+.welcome-subtitle {
+  font-size: 18px;
+  color: #667eea;
+  font-weight: 500;
+  margin: 0 0 24px 0;
+}
+
+.welcome-divider {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 2px;
+  margin: 0 auto 24px;
+}
+
+.welcome-desc {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
