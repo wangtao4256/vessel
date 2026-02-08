@@ -44,7 +44,7 @@ vessel-api/
 
 ```bash
 # 启动服务（会自动先停止已有服务）
-./scripts/start-vessel.sh
+./vessel-frontend/scripts/start-vessel.sh
 ```
 
 ## 开发规范

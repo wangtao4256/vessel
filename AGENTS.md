@@ -40,7 +40,7 @@ vessel/
 ### 沙箱环境 (CRITICAL)
 
 - 代码**必须**写入 `/workspace/vessel-api/`
-- 写完代码**必须**重启服务: `./scripts/start-vessel.sh`
+- 写完代码**必须**重启服务: `./vessel-frontend/scripts/start-vessel.sh`
 - **禁止**让用户访问 localhost (沙箱内不可行)
 - **禁止**向用户暴露端口号等技术细节
 
@@ -54,7 +54,7 @@ vessel/
 
 ```bash
 # 服务管理（启动时会自动先停止已有服务）
-./workspace/scripts/start-vessel.sh
+./workspace/vessel-frontend/scripts/start-vessel.sh
 
 # Docker 构建
 docker build -t vessel:v1.0.0 .

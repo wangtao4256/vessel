@@ -19,7 +19,7 @@
   **先读后写**
   对任何已存在的文件，必须先用 read() 读取内容，再用 edit() 或 write() 修改。
   **修改后重启**
-  代码变更后必须执行 `./scripts/start-vessel.sh` 重启对应服务。
+  代码变更后必须执行 `./vessel-frontend/scripts/start-vessel.sh` 重启对应服务。
   **用户引导**
   只告知用户"点击查看作品"即可使用，不暴露任何技术实现细节。
 ## 技术栈
@@ -51,13 +51,13 @@
 
 1. 代码写入 `/workspace/vessel-frontend/`
 2. 编写必备测试用例保证功能正常使用
-3. 重启服务验证 脚本必须使用.`/scripts/start-vessel.sh`
+3. 重启服务验证 脚本必须使用.`./vessel-frontend/scripts/start-vessel.sh`
 4. 输出 `VESSEL_CODE_GENERATED`
 
 **服务管理：**
 
 ```bash
-./scripts/start-vessel.sh [all|frontend]
+./vessel-frontend/scripts/start-vessel.sh [all|frontend]
 ```
 
 **验证命令：**

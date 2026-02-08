@@ -1,0 +1,16 @@
+# ============================================
+# Vessel Preview Image (Hot Reload Dev Mode)
+# ============================================
+# 纯热部署镜像，源码通过 PVC 挂载
+# node_modules 已在主镜像构建时安装到 /opt/node_modules
+
+FROM node:20-slim
+
+ENV NODE_PATH=/opt/node_modules \
+    NODE_ENV=development
+
+WORKDIR /workspace
+
+EXPOSE 5173
+
+CMD ["/bin/bash", "-c", "/workspace/preview-api/scripts/start-backend.sh && npx vite --host 0.0.0.0 --port 5173 --strictPort"]

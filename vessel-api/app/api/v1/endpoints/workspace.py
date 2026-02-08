@@ -50,7 +50,7 @@ async def start_workspace_script(request: StartScriptRequest):
         raise HTTPException(status_code=400, detail="无效的项目名称")
 
     project_path = Path(WORKSPACE_ROOT) / project_name
-    script_path = project_path / "scripts" / "start-vessel.sh"
+    script_path = project_path / "/vessel-frontend/scripts" / "start-vessel.sh"
 
     if not project_path.exists():
         raise HTTPException(status_code=404, detail=f"项目不存在: {project_name}")
