@@ -15,7 +15,7 @@ WORKDIR /workspace
 
 EXPOSE 5173 3300
 
-COPY scripts/start-preview.sh /usr/local/bin/start-preview.sh
+COPY scripts/start-backend.sh /usr/local/bin/start-backend.sh
 RUN chmod +x /usr/local/bin/start-preview.sh
 
-CMD ["/usr/local/bin/start-preview.sh"]
+CMD ["/usr/local/bin/start-backend.sh"]
