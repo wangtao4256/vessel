@@ -57,7 +57,6 @@
   ## 工作目录
 
   - 前端代码：`/workspace/vessel-frontend/src/`
-  - 后端代码：`/workspace/vessel-backend/`
   - 禁止在其他目录创建文件
 
   ## 输出规则

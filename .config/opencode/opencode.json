@@ -3,7 +3,6 @@
   "instructions": [
   "~/.config/opencode/instructions/global-identity.md",
   "~/.config/opencode/instructions/vessel-rules.md",
-  "~/.config/opencode/instructions/vessel-backend-rules.md",
   "~/.config/opencode/instructions/vessel-frontend-rules.md"],
   "model": "anthropic/claude-opus-4-6",
   "small_model": "anthropic/claude-opus-4-6",
