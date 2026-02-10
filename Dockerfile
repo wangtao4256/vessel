@@ -135,4 +135,9 @@ EXPOSE 3300 4096 5173
 
 WORKDIR /workspace
 
-CMD ["sh", "-c", "cd /workspace && ./scripts/start-vessel.sh all && exec opencode serve --hostname 0.0.0.0 --port 4096"]
+CMD ["sh", "-c", "\
+  if [ -n \"$OPENCODE_API_KEY\" ]; then \
+    sed -i \"s|\\\"apiKey\\\": \\\"[^\\\"]*\\\"|\\\"apiKey\\\": \\\"$OPENCODE_API_KEY\\\"|\" /root/.config/opencode/opencode.json; \
+  fi && \
+  cd /workspace && ./scripts/start-vessel.sh all && \
+  exec opencode serve --hostname 0.0.0.0 --port 4096"]
