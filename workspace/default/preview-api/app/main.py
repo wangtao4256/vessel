@@ -4,7 +4,6 @@ from contextlib import asynccontextmanager
 from app.config import get_settings
 from app.database import init_db
 from app.api.v1 import api_router
-from app.services.opencode_listener import listener
 
 settings = get_settings()
 
@@ -13,9 +12,7 @@ settings = get_settings()
 async def lifespan(app: FastAPI):
     await init_db()
     print("✅ 数据库初始化完成")
-    await listener.start()
     yield
-    await listener.stop()
     print("👋 应用关闭")
 
 

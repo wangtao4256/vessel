@@ -13,17 +13,6 @@ WORKSPACE_ROOT = "/workspace"
 CURRENT_PROJECT_DIR_FILE = "/workspace/.current_project_dir"
 
 
-class CopyRequest(BaseModel):
-    targetPath: str
-
-
-class CopyResponse(BaseModel):
-    success: bool
-    message: str
-    source: str
-    target: str
-
-
 class StartScriptRequest(BaseModel):
     """启动脚本请求"""
 
@@ -50,7 +39,7 @@ async def start_workspace_script(request: StartScriptRequest):
         raise HTTPException(status_code=400, detail="无效的项目名称")
 
     project_path = Path(WORKSPACE_ROOT) / project_name
-    script_path = project_path / "scripts" / "start-vessel.sh"
+    script_path = project_path / "/vessel-frontend/scripts" / "start-vessel.sh"
 
     if not project_path.exists():
         raise HTTPException(status_code=404, detail=f"项目不存在: {project_name}")
@@ -100,27 +89,3 @@ async def start_workspace_script(request: StartScriptRequest):
         raise HTTPException(status_code=504, detail="脚本执行超时")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"执行失败: {str(e)}")
-
-
-@router.post("/copy", response_model=CopyResponse)
-async def copy_workspace(request: CopyRequest):
-    source = Path(SOURCE_DIR)
-    project_name = request.targetPath.lstrip("/")
-    target = Path(WORKSPACE_ROOT) / project_name
-
-    if not source.exists():
-        raise HTTPException(status_code=404, detail=f"源目录不存在: {SOURCE_DIR}")
-
-    try:
-        if target.exists():
-            shutil.rmtree(target)
-
-        shutil.copytree(source, target)
-
-        Path(CURRENT_PROJECT_DIR_FILE).write_text(project_name)
-
-        return CopyResponse(
-            success=True, message="复制成功", source=str(source), target=str(target)
-        )
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"复制失败: {str(e)}")

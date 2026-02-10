@@ -42,6 +42,7 @@ docker run -d \
   -p 3300:3300 \
   -p 4096:4096 \
   -p 5173-5193:5173-5193 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
   ${IMAGE_NAME}:${IMAGE_TAG}
 echo "Container started!"
 echo ""

@@ -40,10 +40,15 @@ FROM node:20-slim
 
 RUN apt-get update && apt-get install -y \
     python3 \
+    python3-venv \
     git \
     vim \
     curl \
     && rm -rf /var/lib/apt/lists/*
+
+# 安装 docker CLI (仅客户端，约 50MB)
+RUN curl -fsSL https://download.docker.com/linux/static/stable/$(uname -m)/docker-27.0.3.tgz | \
+    tar -xz --strip-components=1 -C /usr/local/bin docker/docker
 
 WORKDIR /workspace
 
@@ -84,12 +89,18 @@ COPY ./.config/opencode/ /root/.config/opencode/
 COPY ./skills/ /root/.claude/skills/
 
 COPY ./vessel-api/ /vessel-api/
+COPY ./vessel-api/.env /vessel-api/.env
 
 COPY ./workspace/ /workspace/
 
 RUN rm -rf /workspace/default/vessel-frontend/node_modules
 
-RUN chmod +x /vessel-api/scripts/start-backend.sh
+RUN cd /workspace/default/preview-api && \
+    python3 -m venv venv && \
+    ./venv/bin/pip install --no-cache-dir -r requirements.txt
+
+RUN chmod +x /vessel-api/scripts/start-backend.sh && \
+    chmod +x /workspace/default/vessel-frontend/scripts/start-vessel.sh
 
 RUN cd /workspace && \
     git config --global user.email "x" && \
@@ -117,4 +128,4 @@ EXPOSE 3300 4096 5173
 
 WORKDIR /workspace
 
-CMD ["sh", "-c", "/vessel-api/scripts/start-backend.sh && exec opencode serve --hostname 0.0.0.0 --port 4096"]
+CMD ["sh", "-c", "/workspace/default/vessel-frontend/scripts/start-vessel.sh && /vessel-api/scripts/start-backend.sh && exec opencode serve --hostname 0.0.0.0 --port 4096"]
