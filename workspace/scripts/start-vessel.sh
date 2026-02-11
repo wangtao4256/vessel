@@ -3,7 +3,7 @@
 FRONTEND_DIR="/workspace/vessel-frontend"
 LOG_DIR="/workspace/logs"
 FRONTEND_LOG="$LOG_DIR/frontend.log"
-FRONTEND_PID_FILE="$LOG_DIR/frontend.pid"
+FRONTEND_PORT=5173
 
 BASE_NODE_MODULES="/opt/node_modules"
 
@@ -15,50 +15,48 @@ show_usage() {
     echo "启动前端开发服务器"
 }
 
+get_port_pids() {
+    local PORT=$1
+    if command -v lsof >/dev/null 2>&1; then
+        lsof -ti:$PORT 2>/dev/null
+    elif command -v ss >/dev/null 2>&1; then
+        ss -tlnp "sport = :$PORT" 2>/dev/null | grep -oP 'pid=\K[0-9]+' | sort -u
+    elif [ -d /proc ]; then
+        local HEX_PORT=$(printf '%X' $PORT)
+        awk -v hp="$HEX_PORT" '$2 ~ ":"hp"$" && $4 == "0A" {print $10}' /proc/net/tcp 2>/dev/null | sort -u | grep -v '^0$'
+    fi
+}
+
 stop_frontend() {
     echo "停止已有前端服务..."
-    
-    FOUND=0
-    
-    if [ -f "$FRONTEND_PID_FILE" ]; then
-        PID=$(cat "$FRONTEND_PID_FILE")
-        if kill -0 $PID 2>/dev/null; then
-            echo "  通过 PID 文件停止进程: $PID"
-            kill $PID 2>/dev/null
-            sleep 1
-            kill -9 $PID 2>/dev/null
-            FOUND=1
-        fi
-        rm -f "$FRONTEND_PID_FILE"
+
+    rm -f "$LOG_DIR/frontend.pid"
+
+    local PIDS
+    PIDS=$(get_port_pids $FRONTEND_PORT)
+
+    if [ -z "$PIDS" ]; then
+        echo "  端口 $FRONTEND_PORT 无占用，无需清理"
+        return 0
     fi
-    
-    if command -v ps >/dev/null 2>&1; then
-        FRONTEND_PIDS=$(ps aux 2>/dev/null | grep -E "[n]pm.*run.*dev|[v]ite" | grep -v grep | awk '{print $2}')
-        if [ ! -z "$FRONTEND_PIDS" ]; then
-            for PID in $FRONTEND_PIDS; do
-                echo "  通过进程名停止: $PID"
-                kill $PID 2>/dev/null
-                sleep 1
-                kill -9 $PID 2>/dev/null
-                FOUND=1
-            done
-        fi
+
+    for PID in $PIDS; do
+        echo "  杀掉端口 $FRONTEND_PORT 上的进程: $PID"
+        kill $PID 2>/dev/null
+    done
+    sleep 1
+    for PID in $PIDS; do
+        kill -9 $PID 2>/dev/null
+    done
+
+    local REMAINING
+    REMAINING=$(get_port_pids $FRONTEND_PORT)
+    if [ -n "$REMAINING" ]; then
+        echo "  错误: 端口 $FRONTEND_PORT 仍被占用 (PID: $REMAINING)，可能是非前端进程"
+        return 1
     fi
-    
-    if command -v lsof >/dev/null 2>&1; then
-        PORT_PIDS=$(lsof -ti:5173 2>/dev/null)
-        if [ ! -z "$PORT_PIDS" ]; then
-            echo "  通过端口清理: $PORT_PIDS"
-            kill $PORT_PIDS 2>/dev/null
-            FOUND=1
-        fi
-    fi
-    
-    if [ $FOUND -eq 0 ]; then
-        echo "  未找到运行中的前端服务"
-    else
-        echo "  前端服务已停止"
-    fi
+
+    echo "  前端服务已停止"
 }
 
 start_frontend() {
@@ -71,7 +69,7 @@ start_frontend() {
         return 1
     fi
     
-    stop_frontend
+    stop_frontend || return 1
     
     cd "$FRONTEND_DIR" || return 1
     
@@ -88,15 +86,13 @@ start_frontend() {
     
     echo "启动前端开发服务器..."
     nohup npm run dev -- --host 0.0.0.0 >> "$FRONTEND_LOG" 2>&1 &
-    FRONTEND_PID=$!
-    echo $FRONTEND_PID > "$FRONTEND_PID_FILE"
     
     echo "等待前端服务启动..."
     for i in $(seq 1 30); do
-        if curl -s http://localhost:5173 > /dev/null 2>&1; then
-            echo "前端服务已启动 (PID: $FRONTEND_PID)"
+        if curl -s http://localhost:$FRONTEND_PORT > /dev/null 2>&1; then
+            echo "前端服务已启动"
             echo "   日志文件: $FRONTEND_LOG"
-            echo "   访问地址: http://localhost:5173"
+            echo "   访问地址: http://localhost:$FRONTEND_PORT"
             return 0
         fi
         sleep 1

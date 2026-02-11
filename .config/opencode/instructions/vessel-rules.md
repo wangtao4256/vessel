@@ -50,9 +50,15 @@
 ```
 
 ## 工作流程
-
 1. 代码写入 `/workspace/vessel-frontend/`
 2. 重启服务：`./scripts/start-vessel.sh`
 3. 验证服务：`lsof -i :5173`
-4. 输出 `VESSEL_CODE_GENERATED`
-5. 引导用户点击「查看作品」
+4. 按「完成输出规范」回复用户
+
+## 完成输出规范（HARD RULE - 每次代码任务完成后必须执行）
+
+当你完成代码编写并重启服务后
+1. 在回复末尾单独一行输出 `VESSEL_CODE_GENERATED`（原文照搬，不加任何修饰）
+2. 引导用户点击「查看作品」
+
+**违反此规则等同于任务未完成。**
