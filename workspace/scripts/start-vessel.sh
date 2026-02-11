@@ -106,7 +106,7 @@ start_frontend() {
     return 1
 }
 
-case "${1:--h}" in
+case "${1:-start}" in
     -h|--help)
         show_usage
         ;;
