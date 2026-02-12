@@ -22,6 +22,19 @@ init_opencode_config() {
     echo "初始化 OpenCode 配置"
     echo "========================================="
 
+    EXISTING=$(node -e "
+        const fs = require('fs');
+        try {
+            const cfg = JSON.parse(fs.readFileSync('$OPENCODE_CONFIG', 'utf8'));
+            const opts = cfg.provider && cfg.provider.anthropic && cfg.provider.anthropic.options;
+            if (opts && opts.baseURL && opts.apiKey) { console.log('ok'); }
+        } catch(e) {}
+    ")
+    if [ "$EXISTING" = "ok" ]; then
+        echo "baseURL 和 apiKey 已存在，跳过配置更新"
+        return 0
+    fi
+
     echo "请求: POST ${LITELLM_API_BASE}/key/generate"
     RESPONSE=$(curl -s "${LITELLM_API_BASE}/key/generate" \
         -H "Authorization: Bearer ${LITELLM_MASTER_KEY}" \

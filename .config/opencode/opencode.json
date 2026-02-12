@@ -1,9 +1,10 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "instructions": [
-  "~/.config/opencode/instructions/global-identity.md",
-  "~/.config/opencode/instructions/vessel-rules.md",
-  "~/.config/opencode/instructions/vessel-frontend-rules.md"],
+    "~/.config/opencode/instructions/global-identity.md",
+    "~/.config/opencode/instructions/vessel-rules.md",
+    "~/.config/opencode/instructions/vessel-frontend-rules.md"
+  ],
   "model": "anthropic/claude-opus-4-6",
   "small_model": "anthropic/claude-opus-4-6",
   "agent": {
@@ -14,7 +15,6 @@
       "model": "codex/gpt-5.2"
     }
   },
-
   "provider": {
     "anthropic": {
       "npm": "@ai-sdk/anthropic",
@@ -57,18 +57,20 @@
     "codex": {
       "npm": "@ai-sdk/openai",
       "name": "Codex",
-      "options": {
-        "baseURL": "https://code.newcli.com/codex/v1",
-        "apiKey": "sk-ant-oat01-K4UvoBgGxt2wapHWhNLLg8lymcfBqhIj-h8DIBPL4lCzVbsVmnJfWQLrxYUC1TV8_J259LhbriFOK5Lxc4IPmXySzqh-3AA"
-      },
       "models": {
         "gpt-5.2": {
           "name": "GPT 5.2",
-          "limit": { "context": 160000, "output": 128000 }
+          "limit": {
+            "context": 160000,
+            "output": 128000
+          }
         },
         "gpt-5.2-codex": {
           "name": "GPT 5.2 Codex",
-          "limit": { "context": 160000, "output": 128000 }
+          "limit": {
+            "context": 160000,
+            "output": 128000
+          }
         }
       }
     }
