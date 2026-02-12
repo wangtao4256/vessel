@@ -20,36 +20,36 @@
       "npm": "@ai-sdk/anthropic",
       "name": "Anthropic",
       "options": {
-        "baseURL": "https://code.newcli.com/claude/aws/v1",
-        "apiKey": "sk-ant-oat01-mlM8kmfo6VWs7EdylgW3tXkrwnB2EcKJz9moDwrXeFEfZbksLhFf6M1H5gECy__RyUzi2RHuv1O9WEYIcDUsP1yafahSPAA"
+        "baseURL": "",
+        "apiKey": ""
       },
       "models": {
         "claude-opus-4-5-20251101": {
           "name": "Claude Opus 4.5",
           "limit": {
-            "context": 200000,
-            "output": 8192
+            "context": 160000,
+            "output": 12000
           }
         },
         "claude-sonnet-4-5-20250929": {
           "name": "Claude Sonnet 4.5 20250929",
           "limit": {
-            "context": 200000,
-            "output": 8192
+            "context": 160000,
+            "output": 12000
           }
         },
         "claude-haiku-4-5-20251001": {
           "name": "Claude Haiku 4.5",
           "limit": {
-            "context": 200000,
-            "output": 8192
+            "context": 160000,
+            "output": 12000
           }
         },
         "claude-opus-4-6": {
           "name": "Claude Opus 4.6",
           "limit": {
-            "context": 200000,
-            "output": 8192
+            "context": 160000,
+            "output": 12000
           }
         }
       }
@@ -64,11 +64,11 @@
       "models": {
         "gpt-5.2": {
           "name": "GPT 5.2",
-          "limit": { "context": 272000, "output": 128000 }
+          "limit": { "context": 160000, "output": 128000 }
         },
         "gpt-5.2-codex": {
           "name": "GPT 5.2 Codex",
-          "limit": { "context": 272000, "output": 128000 }
+          "limit": { "context": 160000, "output": 128000 }
         }
       }
     }

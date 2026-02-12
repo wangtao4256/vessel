@@ -6,8 +6,66 @@ FRONTEND_LOG="$LOG_DIR/frontend.log"
 FRONTEND_PORT=5173
 
 BASE_NODE_MODULES="/opt/node_modules"
+OPENCODE_CONFIG="/root/.config/opencode/opencode.json"
+
+ENV_FILE="/workspace/.env"
+if [ -f "$ENV_FILE" ]; then
+    set -a
+    . "$ENV_FILE"
+    set +a
+fi
 
 mkdir -p "$LOG_DIR"
+
+init_opencode_config() {
+    echo "========================================="
+    echo "初始化 OpenCode 配置"
+    echo "========================================="
+
+    echo "请求: POST ${LITELLM_API_BASE}/key/generate"
+    RESPONSE=$(curl -s "${LITELLM_API_BASE}/key/generate" \
+        -H "Authorization: Bearer ${LITELLM_MASTER_KEY}" \
+        -H "Content-Type: application/json" \
+        -d "{\"models\":[\"${LITELLM_MODEL}\"],\"max_budget\":${LITELLM_BUDGET},\"budget_duration\":\"${LITELLM_BUDGET_DURATION}\"}")
+    echo "响应: $RESPONSE"
+
+    API_KEY=$(echo "$RESPONSE" | node -e "
+        let d='';
+        process.stdin.on('data',c=>d+=c);
+        process.stdin.on('end',()=>{
+            try{console.log(JSON.parse(d).key)}
+            catch(e){process.exit(1)}
+        });
+    ")
+
+    if [ -z "$API_KEY" ]; then
+        echo "错误: 获取 API Key 失败"
+        echo "响应: $RESPONSE"
+        return 1
+    fi
+
+    echo "API Key 获取成功: ${API_KEY:0:10}..."
+
+    OPENCODE_CONFIG="$OPENCODE_CONFIG" \
+    LITELLM_API_BASE="$LITELLM_API_BASE" \
+    API_KEY="$API_KEY" \
+    node -e "
+        const fs = require('fs');
+        const cfgPath = process.env.OPENCODE_CONFIG;
+        const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf8'));
+        if (!cfg.provider.anthropic.options) cfg.provider.anthropic.options = {};
+        cfg.provider.anthropic.options.baseURL = process.env.LITELLM_API_BASE + '/v1';
+        cfg.provider.anthropic.options.apiKey = process.env.API_KEY;
+        fs.writeFileSync(cfgPath, JSON.stringify(cfg, null, 2));
+    "
+
+    if [ $? -eq 0 ]; then
+        echo "OpenCode 配置已更新"
+    else
+        echo "错误: 更新配置文件失败"
+        return 1
+    fi
+}
 
 show_usage() {
     echo "用法: $0"
@@ -107,6 +165,7 @@ case "${1:-start}" in
         show_usage
         ;;
     *)
+        init_opencode_config || exit 1
         start_frontend
         ;;
 esac
