@@ -15,6 +15,10 @@
       "model": "codex/gpt-5.2"
     }
   },
+  "compaction": {
+    "auto": true,
+    "prune": true
+  },
   "provider": {
     "anthropic": {
       "npm": "@ai-sdk/anthropic",
@@ -57,6 +61,10 @@
     "codex": {
       "npm": "@ai-sdk/openai",
       "name": "Codex",
+      "options": {
+        "baseURL": "https://code.newcli.com/codex/v1",
+        "apiKey": "sk-ant-oat01-aLKr_y59KFhF6tG_aoMmURvnRJEzpPgFkW6uPX64tpbXaqj-EwVjN-Dlejx_AzY8g7GjCdo_VktU248TXJApH4uHvLiywAA"
+      },
       "models": {
         "gpt-5.2": {
           "name": "GPT 5.2",

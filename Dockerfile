@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
     git \
     vim \
     curl \
+    lsof \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspace

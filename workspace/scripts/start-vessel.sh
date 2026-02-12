@@ -94,7 +94,11 @@ get_port_pids() {
         ss -tlnp "sport = :$PORT" 2>/dev/null | grep -oP 'pid=\K[0-9]+' | sort -u
     elif [ -d /proc ]; then
         local HEX_PORT=$(printf '%X' $PORT)
-        awk -v hp="$HEX_PORT" '$2 ~ ":"hp"$" && $4 == "0A" {print $10}' /proc/net/tcp 2>/dev/null | sort -u | grep -v '^0$'
+        local INODES
+        INODES=$(awk -v hp="$HEX_PORT" '$2 ~ ":"hp"$" && $4 == "0A" {print $10}' /proc/net/tcp 2>/dev/null | sort -u | grep -v '^0$')
+        for INODE in $INODES; do
+            find /proc/[0-9]*/fd -lname "socket:\[$INODE\]" 2>/dev/null | grep -oP '/proc/\K[0-9]+' | sort -u
+        done
     fi
 }
 
