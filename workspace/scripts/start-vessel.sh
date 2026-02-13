@@ -18,9 +18,7 @@ fi
 mkdir -p "$LOG_DIR"
 
 init_opencode_config() {
-    echo "========================================="
     echo "初始化 OpenCode 配置"
-    echo "========================================="
 
     EXISTING=$(node -e "
         const fs = require('fs');
@@ -31,16 +29,13 @@ init_opencode_config() {
         } catch(e) {}
     ")
     if [ "$EXISTING" = "ok" ]; then
-        echo "baseURL 和 apiKey 已存在，跳过配置更新"
         return 0
     fi
 
-    echo "请求: POST ${LITELLM_API_BASE}/key/generate"
     RESPONSE=$(curl -s "${LITELLM_API_BASE}/key/generate" \
         -H "Authorization: Bearer ${LITELLM_MASTER_KEY}" \
         -H "Content-Type: application/json" \
         -d "{\"models\":[\"${LITELLM_MODEL}\"],\"max_budget\":${LITELLM_BUDGET},\"budget_duration\":\"${LITELLM_BUDGET_DURATION}\"}")
-    echo "响应: $RESPONSE"
 
     API_KEY=$(echo "$RESPONSE" | node -e "
         let d='';
@@ -52,12 +47,8 @@ init_opencode_config() {
     ")
 
     if [ -z "$API_KEY" ]; then
-        echo "错误: 获取 API Key 失败"
-        echo "响应: $RESPONSE"
         return 1
     fi
-
-    echo "API Key 获取成功: ${API_KEY:0:10}..."
 
     OPENCODE_CONFIG="$OPENCODE_CONFIG" \
     LITELLM_API_BASE="$LITELLM_API_BASE" \
@@ -75,14 +66,11 @@ init_opencode_config() {
     if [ $? -eq 0 ]; then
         echo "OpenCode 配置已更新"
     else
-        echo "错误: 更新配置文件失败"
         return 1
     fi
 }
 
 show_usage() {
-    echo "用法: $0"
-    echo ""
     echo "启动前端开发服务器"
 }
 
@@ -111,12 +99,10 @@ stop_frontend() {
     PIDS=$(get_port_pids $FRONTEND_PORT)
 
     if [ -z "$PIDS" ]; then
-        echo "  端口 $FRONTEND_PORT 无占用，无需清理"
         return 0
     fi
 
     for PID in $PIDS; do
-        echo "  杀掉端口 $FRONTEND_PORT 上的进程: $PID"
         kill $PID 2>/dev/null
     done
     sleep 1
@@ -135,12 +121,8 @@ stop_frontend() {
 }
 
 start_frontend() {
-    echo "========================================="
-    echo "启动 Vessel Frontend"
-    echo "========================================="
-    
+
     if [ ! -d "$FRONTEND_DIR" ]; then
-        echo "错误: 前端项目目录不存在: $FRONTEND_DIR"
         return 1
     fi
     
@@ -150,30 +132,21 @@ start_frontend() {
     
     if [ ! -d "$FRONTEND_DIR/node_modules" ]; then
         if [ -d "$BASE_NODE_MODULES" ]; then
-            echo "创建软链接到预装 node_modules: $BASE_NODE_MODULES"
             ln -s "$BASE_NODE_MODULES" "$FRONTEND_DIR/node_modules"
-        else
-            echo "警告: 未找到预装 node_modules，需要手动安装依赖"
         fi
-    else
-        echo "使用用户 node_modules"
     fi
     
     echo "启动前端开发服务器..."
     nohup npm run dev -- --host 0.0.0.0 >> "$FRONTEND_LOG" 2>&1 &
     
-    echo "等待前端服务启动..."
     for i in $(seq 1 30); do
         if curl -s http://localhost:$FRONTEND_PORT > /dev/null 2>&1; then
             echo "前端服务已启动"
-            echo "   日志文件: $FRONTEND_LOG"
-            echo "   访问地址: http://localhost:$FRONTEND_PORT"
             return 0
         fi
         sleep 1
     done
     
-    echo "前端服务启动超时，请查看日志: $FRONTEND_LOG"
     return 1
 }
 

@@ -33,10 +33,10 @@ COPY --from=node-builder /opt/node_modules /opt/node_modules
 
 ENV NODE_PATH=/opt/node_modules \
     NODE_ENV=development
-
+ENV OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX=65536
 # 安装 OpenCode 及 LSP 服务器
 RUN npm config set registry https://registry.npmmirror.com && \
-    npm install -g opencode-ai@1.1.45 oh-my-opencode@3.1.7 \
+    npm install -g opencode-ai@1.1.50 oh-my-opencode@3.5.0 \
     @different-ai/opencode-browser \
     typescript typescript-language-server \
     vscode-langservers-extracted

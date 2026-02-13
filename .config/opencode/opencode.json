@@ -84,7 +84,7 @@
     }
   },
   "plugin": [
-    "oh-my-opencode@3.1.7",
+    "oh-my-opencode@3.5.0",
     "@different-ai/opencode-browser"
   ],
   "lsp": false
