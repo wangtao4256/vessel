@@ -10,7 +10,7 @@
   "agent": {
     "title": {
       "model": "anthropic/custom-claude-opus-4-6",
-      "prompt": "为对话生成3个词以内且简洁明了的标题"
+      "prompt": "为对话生成10个词以内且简洁明了的标题"
     },
     "compaction": {
       "model": "codex/gpt-5.2"
