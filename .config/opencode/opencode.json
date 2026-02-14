@@ -5,11 +5,11 @@
     "~/.config/opencode/instructions/vessel-rules.md",
     "~/.config/opencode/instructions/vessel-frontend-rules.md"
   ],
-  "model": "anthropic/custom-claude-opus-4-6",
-  "small_model": "anthropic/custom-claude-opus-4-6",
+  "model": "anthropic/luffy-ai",
+  "small_model": "anthropic/luffy-ai",
   "agent": {
     "title": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt": "为对话生成10个词以内且简洁明了的标题"
     },
     "compaction": {
@@ -23,37 +23,16 @@
   "provider": {
     "anthropic": {
       "npm": "@ai-sdk/anthropic",
-      "name": "Anthropic",
+      "name": "luffy",
       "options": {
         "baseURL": "",
         "apiKey": ""
       },
       "models": {
-        "claude-opus-4-5-20251101": {
-          "name": "Claude Opus 4.5",
+        "luffy-ai": {
+          "name": "luffy-ai",
           "limit": {
-            "context": 160000,
-            "output": 8192
-          }
-        },
-        "claude-sonnet-4-5-20250929": {
-          "name": "Claude Sonnet 4.5 20250929",
-          "limit": {
-            "context": 160000,
-            "output": 8192
-          }
-        },
-        "claude-haiku-4-5-20251001": {
-          "name": "Claude Haiku 4.5",
-          "limit": {
-            "context": 160000,
-            "output": 8192
-          }
-        },
-        "custom-claude-opus-4-6": {
-          "name": "Claude Opus 4.6",
-          "limit": {
-            "context": 160000,
+            "context": 128000,
             "output": 8192
           }
         }

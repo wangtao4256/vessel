@@ -3,69 +3,69 @@
   "google_auth": false,
   "agents": {
     "sisyphus": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "prometheus": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "oracle": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "librarian": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "explore": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "multimodal-looker": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "metis": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "momus": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "atlas": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     }
   },
   "categories": {
     "quick": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "visual-engineering": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "ultrabrain": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "artistry": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "writing": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "unspecified-low": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     },
     "unspecified-high": {
-      "model": "anthropic/custom-claude-opus-4-6",
+      "model": "anthropic/luffy-ai",
       "prompt_append": "你必须使用中文回复用户。所有输出内容必须是中文"
     }
   }
