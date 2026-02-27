@@ -32,10 +32,15 @@ init_opencode_config() {
         return 0
     fi
 
-    RESPONSE=$(curl -s "${LITELLM_API_BASE}/key/generate" \
+    RESPONSE=$(curl -s --connect-timeout 5 --max-time 15 "${LITELLM_API_BASE}/key/generate" \
         -H "Authorization: Bearer ${LITELLM_MASTER_KEY}" \
         -H "Content-Type: application/json" \
         -d "{\"models\":[\"${LITELLM_MODEL}\"],\"max_budget\":${LITELLM_BUDGET},\"budget_duration\":\"${LITELLM_BUDGET_DURATION}\"}")
+
+    if [ $? -ne 0 ]; then
+        echo "错误: 无法连接 LiteLLM 服务 (${LITELLM_API_BASE})"
+        return 1
+    fi
 
     API_KEY=$(echo "$RESPONSE" | node -e "
         let d='';
@@ -47,6 +52,7 @@ init_opencode_config() {
     ")
 
     if [ -z "$API_KEY" ]; then
+        echo "错误: 从 LiteLLM 获取 API Key 失败，响应: ${RESPONSE}"
         return 1
     fi
 
@@ -66,6 +72,7 @@ init_opencode_config() {
     if [ $? -eq 0 ]; then
         echo "OpenCode 配置已更新"
     else
+        echo "错误: 写入 OpenCode 配置文件失败 ($OPENCODE_CONFIG)"
         return 1
     fi
 }
@@ -123,6 +130,7 @@ stop_frontend() {
 start_frontend() {
 
     if [ ! -d "$FRONTEND_DIR" ]; then
+        echo "错误: 前端目录不存在 ($FRONTEND_DIR)"
         return 1
     fi
     
@@ -140,13 +148,14 @@ start_frontend() {
     nohup npm run dev -- --host 0.0.0.0 >> "$FRONTEND_LOG" 2>&1 &
     
     for i in $(seq 1 30); do
-        if curl -s http://localhost:$FRONTEND_PORT > /dev/null 2>&1; then
+        if curl -s --connect-timeout 2 http://localhost:$FRONTEND_PORT > /dev/null 2>&1; then
             echo "前端服务已启动"
             return 0
         fi
         sleep 1
     done
     
+    echo "错误: 前端服务启动超时 (30s)，请检查日志: $FRONTEND_LOG"
     return 1
 }
 
