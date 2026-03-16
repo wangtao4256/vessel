@@ -4,7 +4,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
 FRONTEND_DIR="${PROJECT_DIR}"
-LOG_DIR="/var/log/vessel"
+LOG_DIR="${PROJECT_DIR}/logs"
 FRONTEND_LOG="$LOG_DIR/frontend.log"
 FRONTEND_PID_FILE="$LOG_DIR/frontend.pid"
 FRONTEND_PORT_FILE="$LOG_DIR/frontend.port"
