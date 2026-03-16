@@ -13,7 +13,9 @@ class Settings(BaseSettings):
     port: int = 3300
 
     # 数据库配置
-    database_url: str = "sqlite+aiosqlite:///./app/vessel.db"
+    database_url: str = (
+        "mysql+aiomysql://root:jupiter123@localhost:3306/test?charset=utf8mb4"
+    )
 
     # 日志配置
     log_level: str = "INFO"

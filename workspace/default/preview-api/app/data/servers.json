@@ -1,0 +1,628 @@
+{
+  "GPU环境": [
+    {
+      "id": 1,
+      "owner": "研发",
+      "project": "RD24S02002",
+      "usage": "两个4090卡",
+      "ip": "172.18.2.23",
+      "config": "GPU"
+    },
+    {
+      "id": 2,
+      "owner": "研发",
+      "project": "RD24S02002",
+      "usage": "4张A100 80G和4张4090 48G的卡",
+      "ip": "172.18.2.26",
+      "config": "GPU"
+    }
+  ],
+  "线上演示环境": [
+    {
+      "id": 3,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "HDP集群",
+      "ip": "172.24.12.82",
+      "config": "T7"
+    },
+    {
+      "id": 4,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "HDP集群",
+      "ip": "172.24.12.84",
+      "config": "T7"
+    },
+    {
+      "id": 5,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "HDP集群",
+      "ip": "172.24.12.85",
+      "config": "T7"
+    },
+    {
+      "id": 6,
+      "owner": "陈先帅",
+      "project": "RD24S02002",
+      "usage": "演示环境bdos8.0",
+      "ip": "172.16.12.166",
+      "config": "T7"
+    },
+    {
+      "id": 7,
+      "owner": "陈先帅",
+      "project": "RD24S02002",
+      "usage": "演示环境bdos8.0",
+      "ip": "172.16.12.167",
+      "config": "T7"
+    },
+    {
+      "id": 8,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境机器学习",
+      "ip": "172.24.12.86",
+      "config": "T7"
+    },
+    {
+      "id": 9,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境机器学习",
+      "ip": "172.24.12.87",
+      "config": "T7"
+    },
+    {
+      "id": 10,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境bdos mysql机器",
+      "ip": "172.16.12.90",
+      "config": "T9"
+    },
+    {
+      "id": 11,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境api5.2",
+      "ip": "172.24.12.91",
+      "config": "T7"
+    },
+    {
+      "id": 12,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境api5.2",
+      "ip": "172.24.12.92",
+      "config": "T7"
+    },
+    {
+      "id": 13,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境tag4.3",
+      "ip": "172.24.12.48",
+      "config": "T4"
+    },
+    {
+      "id": 14,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境tag4.3",
+      "ip": "172.24.12.49",
+      "config": "T4"
+    },
+    {
+      "id": 15,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境知识图谱",
+      "ip": "172.24.12.26",
+      "config": "T4"
+    },
+    {
+      "id": 16,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境知识图谱",
+      "ip": "172.24.12.27",
+      "config": "T4"
+    },
+    {
+      "id": 17,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境战法",
+      "ip": "172.24.5.153",
+      "config": "T3"
+    },
+    {
+      "id": 18,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境战法",
+      "ip": "172.26.28.35",
+      "config": "T4"
+    },
+    {
+      "id": 19,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境主数据",
+      "ip": "172.16.12.78",
+      "config": "T4"
+    },
+    {
+      "id": 20,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境主数据",
+      "ip": "172.16.12.79",
+      "config": "T4"
+    },
+    {
+      "id": 21,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境DeepFinder",
+      "ip": "172.16.3.207",
+      "config": "T7"
+    },
+    {
+      "id": 22,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境DeepFinder",
+      "ip": "172.16.3.208",
+      "config": "T7"
+    },
+    {
+      "id": 23,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境DeepFinder",
+      "ip": "172.16.3.209",
+      "config": "T7"
+    },
+    {
+      "id": 24,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "演示环境mysql数据库",
+      "ip": "172.24.3.129",
+      "config": "T3"
+    },
+    {
+      "id": 25,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "bi演示环境",
+      "ip": "172.24.3.69",
+      "config": "T7"
+    },
+    {
+      "id": 26,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "百小思",
+      "ip": "172.26.26.123",
+      "config": "T3"
+    },
+    {
+      "id": 27,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "dify 报告",
+      "ip": "172.26.11.161",
+      "config": "T3"
+    }
+  ],
+  "运维环境": [
+    {
+      "id": 28,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "产品发布包Installer所在",
+      "ip": "172.26.1.73",
+      "config": ""
+    },
+    {
+      "id": 29,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "运维使用 (arm环境)",
+      "ip": "10.0.32.216",
+      "config": ""
+    },
+    {
+      "id": 30,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "installer 镜像打包仓库",
+      "ip": "172.24.3.131",
+      "config": "T3"
+    },
+    {
+      "id": 31,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "容器开发公用编译提交环境|公用各种数据库",
+      "ip": "172.24.5.245",
+      "config": "T3"
+    },
+    {
+      "id": 32,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "开发私有仓库地址",
+      "ip": "172.24.5.108",
+      "config": "T3"
+    },
+    {
+      "id": 33,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "mysql8环境,各个数据源（DM8）",
+      "ip": "172.16.4.80",
+      "config": "T4"
+    },
+    {
+      "id": 34,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "指标installer测试用",
+      "ip": "172.26.26.124",
+      "config": "T3"
+    },
+    {
+      "id": 35,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "cube-studio docker版测试、agent测试",
+      "ip": "172.16.3.83",
+      "config": "T3"
+    },
+    {
+      "id": 36,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "达梦数据库、软件组件安装包",
+      "ip": "172.16.3.77",
+      "config": "T3"
+    },
+    {
+      "id": 37,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "dify 打包测试，百思AI办公平台",
+      "ip": "172.16.3.78",
+      "config": "T3"
+    },
+    {
+      "id": 38,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "非结构化测试用",
+      "ip": "172.16.3.79",
+      "config": "T3"
+    },
+    {
+      "id": 39,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "bdos8.0开发环境 测试非结构化installer",
+      "ip": "172.24.10.41",
+      "config": "T3"
+    },
+    {
+      "id": 40,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "bdos8.0开发环境 测试非结构化installer",
+      "ip": "172.24.10.42",
+      "config": "T3"
+    },
+    {
+      "id": 41,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "测试非结构化installer",
+      "ip": "172.24.10.43",
+      "config": "T3"
+    },
+    {
+      "id": 42,
+      "owner": "韩亚敏",
+      "project": "RD24S02002",
+      "usage": "HT现场环境复制",
+      "ip": "172.16.12.201",
+      "config": "T7"
+    }
+  ],
+  "开发环境": [
+    {
+      "id": 43,
+      "owner": "姜楠",
+      "project": "RD24S02002",
+      "usage": "产品管理系统",
+      "ip": "172.24.3.128",
+      "config": "T3"
+    },
+    {
+      "id": 44,
+      "owner": "姜楠",
+      "project": "RD24S02002",
+      "usage": "研发内部管理工具",
+      "ip": "172.24.4.210",
+      "config": "T3"
+    },
+    {
+      "id": 45,
+      "owner": "沙红振",
+      "project": "RD24S02002",
+      "usage": "api开发环境",
+      "ip": "172.24.5.192",
+      "config": "T3"
+    },
+    {
+      "id": 46,
+      "owner": "沙红振",
+      "project": "RD24S02002",
+      "usage": "api开发环境",
+      "ip": "172.24.5.193",
+      "config": "T3"
+    },
+    {
+      "id": 47,
+      "owner": "沙红振",
+      "project": "RD24S02002",
+      "usage": "api开发环境",
+      "ip": "172.24.5.194",
+      "config": "T3"
+    },
+    {
+      "id": 48,
+      "owner": "沙红振",
+      "project": "RD24S02002",
+      "usage": "api开发环境",
+      "ip": "172.24.5.136",
+      "config": "T3"
+    },
+    {
+      "id": 49,
+      "owner": "海俊",
+      "project": "RD24S02002",
+      "usage": "bdos售后专用",
+      "ip": "172.24.9.93",
+      "config": "T3"
+    },
+    {
+      "id": 50,
+      "owner": "海俊",
+      "project": "RD24S02002",
+      "usage": "bdos售后专用",
+      "ip": "172.24.9.94",
+      "config": "T3"
+    },
+    {
+      "id": 51,
+      "owner": "海俊",
+      "project": "RD24S02002",
+      "usage": "bdos售后专用",
+      "ip": "172.24.9.95",
+      "config": "T3"
+    },
+    {
+      "id": 52,
+      "owner": "海俊",
+      "project": "RD24S02002",
+      "usage": "bdos售后专用",
+      "ip": "172.24.9.96",
+      "config": "T3"
+    },
+    {
+      "id": 53,
+      "owner": "海俊",
+      "project": "RD24S02002",
+      "usage": "bdos售后专用",
+      "ip": "172.24.9.97",
+      "config": "T3"
+    },
+    {
+      "id": 54,
+      "owner": "姜楠",
+      "project": "RD24S02002",
+      "usage": "bdos8.0开发hdp3.x集群",
+      "ip": "172.16.4.71",
+      "config": "T3"
+    },
+    {
+      "id": 55,
+      "owner": "姜楠",
+      "project": "RD24S02002",
+      "usage": "bdos8.0开发hdp3.x集群",
+      "ip": "172.16.4.72",
+      "config": "T3"
+    },
+    {
+      "id": 56,
+      "owner": "姜楠",
+      "project": "RD24S02002",
+      "usage": "bdos8.0开发hdp3.x集群",
+      "ip": "172.16.4.73",
+      "config": "T3"
+    },
+    {
+      "id": 57,
+      "owner": "红振",
+      "project": "RD24S02002",
+      "usage": "标签开发环境",
+      "ip": "172.24.12.75",
+      "config": "T3"
+    },
+    {
+      "id": 58,
+      "owner": "红振",
+      "project": "RD24S02002",
+      "usage": "标签开发环境",
+      "ip": "172.24.12.76",
+      "config": "T3"
+    },
+    {
+      "id": 59,
+      "owner": "红振",
+      "project": "RD24S02002",
+      "usage": "bdos7.2开发",
+      "ip": "172.16.3.84",
+      "config": "T3"
+    },
+    {
+      "id": 60,
+      "owner": "红振",
+      "project": "RD24S02002",
+      "usage": "bdos7.2开发",
+      "ip": "172.16.3.85",
+      "config": "T3"
+    },
+    {
+      "id": 61,
+      "owner": "红振",
+      "project": "RD24S02002",
+      "usage": "cube-studio调研单机部署（k8s）",
+      "ip": "172.16.12.120",
+      "config": "T9"
+    },
+    {
+      "id": 62,
+      "owner": "姜楠",
+      "project": "RD24S02002",
+      "usage": "8.0定制开发",
+      "ip": "172.24.3.133",
+      "config": "T3"
+    },
+    {
+      "id": 63,
+      "owner": "姜楠",
+      "project": "RD24S02002",
+      "usage": "8.0定制开发",
+      "ip": "172.24.3.134",
+      "config": "T3"
+    },
+    {
+      "id": 64,
+      "owner": "红振",
+      "project": "RD24S02002",
+      "usage": "ai非结构化数据",
+      "ip": "172.16.12.59",
+      "config": "T7"
+    },
+    {
+      "id": 65,
+      "owner": "红振",
+      "project": "RD24S02002",
+      "usage": "百思Copilot研发",
+      "ip": "172.16.12.92",
+      "config": "T7"
+    },
+    {
+      "id": 66,
+      "owner": "红振",
+      "project": "RD24S02002",
+      "usage": "百思Copilot研发",
+      "ip": "172.26.26.119",
+      "config": "T3"
+    },
+    {
+      "id": 67,
+      "owner": "红振",
+      "project": "RD24S02002",
+      "usage": "dify",
+      "ip": "172.26.26.118",
+      "config": "T3"
+    }
+  ],
+  "测试环境": [
+    {
+      "id": 68,
+      "owner": "王克光",
+      "project": "RD24S02002",
+      "usage": "用例在线管理系统-MeterSphere",
+      "ip": "172.16.3.31",
+      "config": "T6"
+    },
+    {
+      "id": 69,
+      "owner": "王克光",
+      "project": "RD24S02002",
+      "usage": "bdos7.2增量测试环境，保留用以标准功能验证",
+      "ip": "172.26.11.80",
+      "config": "T4"
+    },
+    {
+      "id": 70,
+      "owner": "王克光",
+      "project": "RD24S02002",
+      "usage": "maas部署",
+      "ip": "172.26.11.81",
+      "config": "T4"
+    },
+    {
+      "id": 71,
+      "owner": "王克光",
+      "project": "RD24S02002",
+      "usage": "bdos6.5-hdp3功能适配测试环境",
+      "ip": "172.24.10.63",
+      "config": "T4"
+    },
+    {
+      "id": 72,
+      "owner": "王克光",
+      "project": "RD24S02002",
+      "usage": "maas部署",
+      "ip": "172.24.10.64",
+      "config": "T4"
+    },
+    {
+      "id": 73,
+      "owner": "王克光",
+      "project": "RD24S02002",
+      "usage": "bdos7.0-installer安装测试",
+      "ip": "172.24.10.61",
+      "config": "T4"
+    },
+    {
+      "id": 74,
+      "owner": "王克光",
+      "project": "RD24S02002",
+      "usage": "bdos7.0-installer安装测试",
+      "ip": "172.24.10.62",
+      "config": "T4"
+    },
+    {
+      "id": 75,
+      "owner": "王克光",
+      "project": "RD24S02002",
+      "usage": "Windows SQLServer环境",
+      "ip": "172.24.4.67",
+      "config": "T3"
+    },
+    {
+      "id": 76,
+      "owner": "王克光",
+      "project": "RD24S02002",
+      "usage": "主数据开发测试",
+      "ip": "172.24.4.61",
+      "config": "T4"
+    },
+    {
+      "id": 77,
+      "owner": "王克光",
+      "project": "RD24S02002",
+      "usage": "主数据开发测试",
+      "ip": "172.24.4.62",
+      "config": "T4"
+    }
+  ]
+}

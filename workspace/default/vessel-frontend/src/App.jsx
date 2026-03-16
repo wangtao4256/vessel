@@ -1,16 +1,25 @@
 import { useState, useEffect } from 'react'
-import { Layout, Menu, Card, Table, Statistic, Row, Col, Tabs } from 'antd'
-import { HomeOutlined, CloudServerOutlined, DatabaseOutlined } from '@ant-design/icons'
+import { Layout, Menu, Card, Table, Statistic, Row, Col, Tabs, Button } from 'antd'
+import { HomeOutlined, CloudServerOutlined, DatabaseOutlined, LogoutOutlined } from '@ant-design/icons'
+import Login from './Login'
 import './App.css'
 
 const { Header, Content } = Layout
 
 function App() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [activeMenu, setActiveMenu] = useState('home')
+    const [activeSubMenu, setActiveSubMenu] = useState('servers')
+    const [activeTab, setActiveTab] = useState('线上演示环境')
     const [serverStats, setServerStats] = useState({})
     const [servers, setServers] = useState({})
     const [dbStats, setDbStats] = useState({})
     const [databases, setDatabases] = useState([])
+
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+        setIsLoggedIn(!!token)
+    }, [])
 
     const fetchData = async () => {
         try {
@@ -64,22 +73,32 @@ function App() {
                     <Card><Statistic title="总计" value={serverStats.total || 0} suffix="台" /></Card>
                 </Col>
                 <Col span={4}>
-                    <Card><Statistic title="线上演示" value={serverStats['线上演示环境'] || 0} suffix="台" /></Card>
+                    <Card hoverable onClick={() => { setActiveTab('线上演示环境'); setActiveSubMenu('servers'); setActiveMenu('ops'); }} style={{ cursor: 'pointer' }}>
+                        <Statistic title="线上演示" value={serverStats['线上演示环境'] || 0} suffix="台" />
+                    </Card>
                 </Col>
                 <Col span={4}>
-                    <Card><Statistic title="开发环境" value={serverStats['开发环境'] || 0} suffix="台" /></Card>
+                    <Card hoverable onClick={() => { setActiveTab('开发环境'); setActiveSubMenu('servers'); setActiveMenu('ops'); }} style={{ cursor: 'pointer' }}>
+                        <Statistic title="开发环境" value={serverStats['开发环境'] || 0} suffix="台" />
+                    </Card>
                 </Col>
                 <Col span={4}>
-                    <Card><Statistic title="运维环境" value={serverStats['运维环境'] || 0} suffix="台" /></Card>
+                    <Card hoverable onClick={() => { setActiveTab('运维环境'); setActiveSubMenu('servers'); setActiveMenu('ops'); }} style={{ cursor: 'pointer' }}>
+                        <Statistic title="运维环境" value={serverStats['运维环境'] || 0} suffix="台" />
+                    </Card>
                 </Col>
                 <Col span={4}>
-                    <Card><Statistic title="GPU环境" value={serverStats['GPU环境'] || 0} suffix="台" /></Card>
+                    <Card hoverable onClick={() => { setActiveTab('GPU环境'); setActiveSubMenu('servers'); setActiveMenu('ops'); }} style={{ cursor: 'pointer' }}>
+                        <Statistic title="GPU环境" value={serverStats['GPU环境'] || 0} suffix="台" />
+                    </Card>
                 </Col>
             </Row>
             <h2 style={{ marginTop: 40, marginBottom: 24 }}>数据库统计</h2>
             <Row gutter={16}>
                 <Col span={6}>
-                    <Card><Statistic title="数据库总数" value={dbStats.total || 0} suffix="个" /></Card>
+                    <Card hoverable onClick={() => { setActiveSubMenu('databases'); setActiveMenu('ops'); }} style={{ cursor: 'pointer' }}>
+                        <Statistic title="数据库总数" value={dbStats.total || 0} suffix="个" />
+                    </Card>
                 </Col>
             </Row>
         </div>
@@ -91,35 +110,58 @@ function App() {
             label: `${env} (${list.length})`,
             children: <Table columns={serverColumns} dataSource={list} rowKey="id" pagination={{ pageSize: 10 }} size="small" />
         }))
-        return <Tabs defaultActiveKey="线上演示环境" items={items} />
+        return <Tabs activeKey={activeTab} onChange={setActiveTab} items={items} />
     }
 
     const renderDatabases = () => (
         <Table columns={dbColumns} dataSource={databases} rowKey="id" pagination={{ pageSize: 15 }} size="small" />
     )
 
+    const renderOps = () => (
+        <Tabs activeKey={activeSubMenu} onChange={setActiveSubMenu}>
+            <Tabs.TabPane tab="服务器管理" key="servers">
+                {renderServers()}
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="数据库管理" key="databases">
+                {renderDatabases()}
+            </Tabs.TabPane>
+        </Tabs>
+    )
+
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+        setIsLoggedIn(false)
+    }
+
+    if (!isLoggedIn) {
+        return <Login onLoginSuccess={() => setIsLoggedIn(true)} />
+    }
+
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Header style={{ background: '#001529', padding: '0 24px' }}>
-                <div style={{ color: 'white', fontSize: 20, fontWeight: 'bold', float: 'left', lineHeight: '64px' }}>
+            <Header style={{ background: '#001529', padding: '0 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>
                     服务器信息管理平台
                 </div>
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    selectedKeys={[activeMenu]}
-                    onClick={e => setActiveMenu(e.key)}
-                    style={{ float: 'right', lineHeight: '64px' }}
-                >
-                    <Menu.Item key="home" icon={<HomeOutlined />}>首页</Menu.Item>
-                    <Menu.Item key="servers" icon={<CloudServerOutlined />}>服务器管理</Menu.Item>
-                    <Menu.Item key="databases" icon={<DatabaseOutlined />}>数据库管理</Menu.Item>
-                </Menu>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+                    <Menu
+                        theme="dark"
+                        mode="horizontal"
+                        selectedKeys={[activeMenu]}
+                        onClick={e => setActiveMenu(e.key)}
+                        style={{ flex: 1, minWidth: 0 }}
+                    >
+                        <Menu.Item key="home" icon={<HomeOutlined />}>首页</Menu.Item>
+                        <Menu.Item key="ops" icon={<CloudServerOutlined />}>运维管理</Menu.Item>
+                    </Menu>
+                    <Button type="text" icon={<LogoutOutlined />} onClick={handleLogout} style={{ color: 'white' }}>
+                        退出
+                    </Button>
+                </div>
             </Header>
             <Content style={{ padding: 24, background: '#f0f2f5' }}>
                 {activeMenu === 'home' && renderHome()}
-                {activeMenu === 'servers' && renderServers()}
-                {activeMenu === 'databases' && renderDatabases()}
+                {activeMenu === 'ops' && renderOps()}
             </Content>
         </Layout>
     )
