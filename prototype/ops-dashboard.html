@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运维管理系统</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7C3AED',
+                        secondary: '#A78BFA',
+                        cta: '#F97316',
+                    },
+                    fontFamily: {
+                        sans: ['Fira Sans', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Fira Sans', sans-serif; }
+        .font-mono { font-family: 'Fira Code', monospace; }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen">
+    <!-- 侧边栏 -->
+    <aside id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-gray-900 border-r border-gray-800 transition-transform duration-200 z-50">
+        <div class="p-6">
+            <h1 class="text-xl font-bold text-primary">运维管理系统</h1>
+        </div>
+        <nav class="px-3">
+            <a href="#dashboard" class="nav-item active flex items-center gap-3 px-4 py-3 rounded-lg mb-1 cursor-pointer transition-colors duration-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <span>监控中心</span>
+            </a>
+            <a href="#assets" class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg mb-1 cursor-pointer transition-colors duration-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
+                <span>资产管理</span>
+            </a>
+            <a href="#logs" class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg mb-1 cursor-pointer transition-colors duration-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <span>日志中心</span>
+            </a>
+            <a href="#automation" class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg mb-1 cursor-pointer transition-colors duration-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span>自动化运维</span>
+            </a>
+            <a href="#tickets" class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg mb-1 cursor-pointer transition-colors duration-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>
+                <span>工单系统</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="ml-64 min-h-screen">
+        <!-- 顶部导航 -->
+        <header class="bg-gray-900 border-b border-gray-800 sticky top-0 z-40">
+            <div class="flex items-center justify-between px-6 py-4">
+                <h2 class="text-lg font-semibold">监控中心</h2>
+                <div class="flex items-center gap-4">
+                    <button class="relative cursor-pointer transition-colors duration-200 hover:text-primary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-cta rounded-full"></span>
+                    </button>
+                    <div class="flex items-center gap-2 cursor-pointer">
+                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-sm font-semibold">管</div>
+                        <span class="text-sm">管理员</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 仪表盘内容 -->
+        <div id="content" class="p-6">
+            <!-- 统计卡片 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 cursor-pointer transition-all duration-200 hover:border-primary">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-400 text-sm">服务器总数</span>
+                        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
+                    </div>
+                    <div class="text-3xl font-bold mb-1">156</div>
+                    <div class="text-xs text-green-400">↑ 12 本月新增</div>
+                </div>
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 cursor-pointer transition-all duration-200 hover:border-primary">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-400 text-sm">在线率</span>
+                        <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div class="text-3xl font-bold mb-1">98.7%</div>
+                    <div class="text-xs text-green-400">154/156 在线</div>
+                </div>
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 cursor-pointer transition-all duration-200 hover:border-cta">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-400 text-sm">告警数量</span>
+                        <svg class="w-5 h-5 text-cta" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    </div>
+                    <div class="text-3xl font-bold mb-1">23</div>
+                    <div class="text-xs text-cta">5 严重 / 18 警告</div>
+                </div>
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 cursor-pointer transition-all duration-200 hover:border-primary">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-400 text-sm">待处理工单</span>
+                        <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                    </div>
+                    <div class="text-3xl font-bold mb-1">47</div>
+                    <div class="text-xs text-yellow-400">12 紧急处理</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold mb-4">实时告警</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start gap-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg cursor-pointer hover:bg-red-500/20 transition-colors duration-200">
+                            <div class="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-medium text-red-400">严重</span>
+                                    <span class="text-xs text-gray-400">2分钟前</span>
+                                </div>
+                                <p class="text-sm">prod-web-01 CPU使用率超过90%</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg cursor-pointer hover:bg-yellow-500/20 transition-colors duration-200">
+                            <div class="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-medium text-yellow-400">警告</span>
+                                    <span class="text-xs text-gray-400">15分钟前</span>
+                                </div>
+                                <p class="text-sm">prod-db-02 磁盘空间不足20%</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg cursor-pointer hover:bg-red-500/20 transition-colors duration-200">
+                            <div class="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-medium text-red-400">严重</span>
+                                    <span class="text-xs text-gray-400">1小时前</span>
+                                </div>
+                                <p class="text-sm">prod-cache-01 Redis连接数异常</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold mb-4">服务器状态</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm text-gray-400">CPU平均使用率</span>
+                                <span class="text-sm font-mono">45%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="bg-primary h-2 rounded-full transition-all duration-300" style="width: 45%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm text-gray-400">内存平均使用率</span>
+                                <span class="text-sm font-mono">67%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="bg-secondary h-2 rounded-full transition-all duration-300" style="width: 67%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm text-gray-400">磁盘平均使用率</span>
+                                <span class="text-sm font-mono">52%</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full transition-all duration-300" style="width: 52%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm text-gray-400">网络流量</span>
+                                <span class="text-sm font-mono">1.2 GB/s</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-2">
+                                <div class="bg-cta h-2 rounded-full transition-all duration-300" style="width: 30%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">服务器列表</h3>
+                    <button class="px-4 py-2 bg-primary hover:bg-primary/80 rounded-lg text-sm font-medium cursor-pointer transition-colors duration-200">添加服务器</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-gray-800">
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-400">主机名</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-400">IP地址</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-400">状态</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-400">CPU</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-400">内存</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-400">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-800 hover:bg-gray-800/50 cursor-pointer transition-colors duration-200">
+                                <td class="py-3 px-4 font-mono text-sm">prod-web-01</td>
+                                <td class="py-3 px-4 font-mono text-sm text-gray-400">192.168.1.101</td>
+                                <td class="py-3 px-4"><span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">在线</span></td>
+                                <td class="py-3 px-4 font-mono text-sm">92%</td>
+                                <td class="py-3 px-4 font-mono text-sm">68%</td>
+                                <td class="py-3 px-4"><button class="text-primary hover:text-primary/80 text-sm cursor-pointer transition-colors duration-200">详情</button></td>
+                            </tr>
+                            <tr class="border-b border-gray-800 hover:bg-gray-800/50 cursor-pointer transition-colors duration-200">
+                                <td class="py-3 px-4 font-mono text-sm">prod-db-01</td>
+                                <td class="py-3 px-4 font-mono text-sm text-gray-400">192.168.1.201</td>
+                                <td class="py-3 px-4"><span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">在线</span></td>
+                                <td class="py-3 px-4 font-mono text-sm">56%</td>
+                                <td class="py-3 px-4 font-mono text-sm">78%</td>
+                                <td class="py-3 px-4"><button class="text-primary hover:text-primary/80 text-sm cursor-pointer transition-colors duration-200">详情</button></td>
+                            </tr>
+                            <tr class="hover:bg-gray-800/50 cursor-pointer transition-colors duration-200">
+                                <td class="py-3 px-4 font-mono text-sm">prod-cache-01</td>
+                                <td class="py-3 px-4 font-mono text-sm text-gray-400">192.168.1.301</td>
+                                <td class="py-3 px-4"><span class="px-2 py-1 bg-red-500/20 text-red-400 rounded text-xs">离线</span></td>
+                                <td class="py-3 px-4 font-mono text-sm text-gray-600">--</td>
+                                <td class="py-3 px-4 font-mono text-sm text-gray-600">--</td>
+                                <td class="py-3 px-4"><button class="text-primary hover:text-primary/80 text-sm cursor-pointer transition-colors duration-200">详情</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                navItems.forEach(i => i.classList.remove('active', 'bg-primary/20', 'text-primary'));
+                this.classList.add('active', 'bg-primary/20', 'text-primary');
+            });
+        });
+
+        navItems.forEach(item => {
+            if (!item.classList.contains('active')) {
+                item.classList.add('text-gray-400', 'hover:bg-gray-800', 'hover:text-gray-100');
+            } else {
+                item.classList.add('bg-primary/20', 'text-primary');
+            }
+        });
+    </script>
+</body>
+</html>
