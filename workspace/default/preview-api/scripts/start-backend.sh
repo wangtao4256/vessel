@@ -1,7 +1,8 @@
 #!/bin/bash
 
-VESSEL_API_DIR="/vessel-api"
-LOG_DIR="/var/log/vessel"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+VESSEL_API_DIR="$(dirname "$SCRIPT_DIR")"
+LOG_DIR="$VESSEL_API_DIR/logs"
 VESSEL_API_LOG="$LOG_DIR/vessel-api.log"
 VESSEL_API_PID_FILE="$LOG_DIR/vessel-api.pid"
 

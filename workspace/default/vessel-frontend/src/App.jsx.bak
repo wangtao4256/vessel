@@ -15,8 +15,6 @@ function App() {
     
     // 硬件配置管理
     const [hardwareConfigs, setHardwareConfigs] = useState([])
-    const [selectedProduct, setSelectedProduct] = useState('')
-    const [selectedConfigLevel, setSelectedConfigLevel] = useState('')
     const [selectedConfigId, setSelectedConfigId] = useState('')
     const [machineCount, setMachineCount] = useState(1)
     const [configList, setConfigList] = useState([])
@@ -71,18 +69,12 @@ function App() {
     }
 
     const addToConfigList = async () => {
-        if (!selectedProduct || !selectedConfigLevel) {
-            alert('请选择硬件配置和配置等级')
+        if (!selectedConfigId) {
+            alert('请选择硬件配置')
             return
         }
         if (!machineCount || machineCount < 1) {
             alert('请输入有效的机器数量')
-            return
-        }
-        
-        const config = hardwareConfigs.find(c => c.product === selectedProduct && c.config_level === selectedConfigLevel)
-        if (!config) {
-            alert('未找到匹配的配置')
             return
         }
         
@@ -91,14 +83,13 @@ function App() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    hardware_config_id: config.id,
+                    hardware_config_id: parseInt(selectedConfigId),
                     machine_count: machineCount
                 })
             })
             if (res.ok) {
                 fetchConfigList()
-                setSelectedProduct('')
-                setSelectedConfigLevel('')
+                setSelectedConfigId('')
                 setMachineCount(1)
             }
         } catch (error) {
@@ -334,34 +325,24 @@ function App() {
                         <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
                             <h3 className="text-lg font-semibold mb-4">硬件配置列表</h3>
                             <div className="overflow-x-auto">
-                                <table className="w-full text-sm">
+                                <table className="w-full">
                                     <thead>
                                         <tr className="border-b border-gray-800">
-                                            <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">序号</th>
-                                            <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">服务器型号</th>
-                                            <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">操作系统</th>
+                                            <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">产品</th>
+                                            <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">等级</th>
                                             <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">CPU</th>
                                             <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">内存</th>
-                                            <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">系统盘</th>
-                                            <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">数据盘</th>
                                             <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">网络</th>
-                                            <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">产品</th>
-                                            <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">配置等级</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {hardwareConfigs.map(config => (
                                             <tr key={config.id} className="border-b border-gray-800 hover:bg-gray-800/50">
-                                                <td className="py-3 px-4 text-sm">{config.serial_number}</td>
-                                                <td className="py-3 px-4 text-sm">{config.server_model}</td>
-                                                <td className="py-3 px-4 text-sm">{config.os}</td>
+                                                <td className="py-3 px-4 text-sm">{config.description}</td>
+                                                <td className="py-3 px-4 text-sm">{config.config_level}</td>
                                                 <td className="py-3 px-4 text-sm">{config.cpu}</td>
                                                 <td className="py-3 px-4 text-sm">{config.memory}</td>
-                                                <td className="py-3 px-4 text-sm">{config.system_disk}</td>
-                                                <td className="py-3 px-4 text-sm">{config.data_disk}</td>
                                                 <td className="py-3 px-4 text-sm">{config.network}</td>
-                                                <td className="py-3 px-4 text-sm">{config.product}</td>
-                                                <td className="py-3 px-4 text-sm">{config.config_level}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -386,21 +367,13 @@ function App() {
                                 
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-sm text-gray-400 mb-2">硬件配置</label>
-                                        <select value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:border-primary transition-colors duration-200">
-                                            <option value="">请选择产品</option>
-                                            {[...new Set(hardwareConfigs.map(c => c.product))].map(product => (
-                                                <option key={product} value={product}>{product}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    
-                                    <div>
-                                        <label className="block text-sm text-gray-400 mb-2">配置等级</label>
-                                        <select value={selectedConfigLevel} onChange={(e) => setSelectedConfigLevel(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:border-primary transition-colors duration-200">
-                                            <option value="">请选择配置等级</option>
-                                            {[...new Set(hardwareConfigs.map(c => c.config_level))].map(level => (
-                                                <option key={level} value={level}>{level}</option>
+                                        <label className="block text-sm text-gray-400 mb-2">选择硬件配置</label>
+                                        <select value={selectedConfigId} onChange={(e) => setSelectedConfigId(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 focus:outline-none focus:border-primary transition-colors duration-200">
+                                            <option value="">请选择配置</option>
+                                            {hardwareConfigs.map(config => (
+                                                <option key={config.id} value={config.id}>
+                                                    {config.description} - {config.config_level}
+                                                </option>
                                             ))}
                                         </select>
                                     </div>
@@ -431,7 +404,7 @@ function App() {
                                             <div key={item.id} className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
                                                 <div className="flex items-start justify-between mb-2">
                                                     <div>
-                                                        <div className="font-medium">{item.config.product}</div>
+                                                        <div className="font-medium">{item.config.description}</div>
                                                         <div className="text-sm text-gray-400">{item.config.config_level} × {item.machine_count} 台</div>
                                                     </div>
                                                     <button onClick={() => removeFromConfigList(item.id)} className="text-red-400 hover:text-red-300 transition-colors duration-200">

@@ -17,7 +17,7 @@ mkdir -p "$LOG_DIR"
 
 find_available_port() {
     for port in $(seq $PORT_START $PORT_END); do
-        if ! lsof -i:$port >/dev/null 2>&1; then
+        if ! nc -z localhost $port 2>/dev/null && ! lsof -i:$port >/dev/null 2>&1; then
             echo $port
             return 0
         fi
@@ -26,45 +26,18 @@ find_available_port() {
     return 1
 }
 
-# 通过 /proc/net/tcp 查找占用指定端口的进程 PID
-get_pid_by_port() {
-    local port=$1
-    local hex_port=$(printf '%04X' $port)
-    
-    # 从 /proc/net/tcp 找到监听该端口的 inode
-    local inode=$(grep -E "^\s*[0-9]+:\s+[0-9A-F]+:$hex_port\s+" /proc/net/tcp 2>/dev/null | awk '{print $10}' | head -1)
-    
-    if [ -z "$inode" ] || [ "$inode" = "0" ]; then
-        return 1
-    fi
-    
-    # 遍历 /proc 找到持有该 socket 的进程
-    for pid_dir in /proc/[0-9]*; do
-        local pid=$(basename "$pid_dir")
-        if [ -d "$pid_dir/fd" ]; then
-            for fd in "$pid_dir"/fd/*; do
-                local link=$(readlink "$fd" 2>/dev/null)
-                if [ "$link" = "socket:[$inode]" ]; then
-                    echo "$pid"
-                    return 0
-                fi
-            done
-        fi
-    done
-    return 1
-}
-
-# 停止占用指定端口的进程
 stop_by_port() {
     local port=$1
-    local pid=$(get_pid_by_port $port)
     
-    if [ -n "$pid" ]; then
-        echo "  通过端口 $port 找到进程: $pid"
-        kill $pid 2>/dev/null
-        sleep 1
-        kill -9 $pid 2>/dev/null
-        return 0
+    if command -v lsof >/dev/null 2>&1; then
+        local pid=$(lsof -ti:$port 2>/dev/null)
+        if [ -n "$pid" ]; then
+            echo "  通过端口 $port 找到进程: $pid"
+            kill $pid 2>/dev/null
+            sleep 1
+            kill -9 $pid 2>/dev/null
+            return 0
+        fi
     fi
     return 1
 }
